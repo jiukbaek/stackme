@@ -1,0 +1,145 @@
+@import "./project.scss";
+
+$banner_background_color: #9bb7e2;
+$white_background_color: #fff;
+$lightgray_background_color: #f6f6f6;
+
+.mainPageWrapper {
+  width: 100%;
+
+  & > div {
+    width: 100%;
+  }
+
+  & > div > div {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  & .mainBannerWrapper {
+    background: $banner_background_color;
+  }
+  & .mainInfoWrapper {
+    background: $white_background_color;
+  }
+
+  & .mainProjectWrapper {
+    background: $lightgray_background_color;
+  }
+
+  & .mainSectionTitle {
+    width: 170px;
+    text-align: center;
+    font-size: 35px;
+    font-weight: 700;
+    margin: 0 auto;
+    border-bottom: solid 2px #000;
+    padding: 40px 0px 10px 0px;
+  }
+}
+
+.mainPageWrapper .mainBannerWrapper .mainBannerInner {
+  height: 500px;
+  background-image: url("/static/image/mainbanner_img1.png");
+  background-position: 60px bottom;
+  background-size: auto 95%;
+  background-repeat: no-repeat;
+  color: $white_background_color;
+
+  & > div {
+    position: absolute;
+  }
+
+  & .mainBannerBigText {
+    font-size: 55px;
+    font-weight: 700;
+    top: 150px;
+    right: 310px;
+  }
+
+  & .mainBannerSmallText {
+    font-size: 30px;
+    font-weight: 700;
+    top: 255px;
+    right: 235px;
+  }
+
+  & > img {
+    position: absolute;
+    opacity: 0;
+  }
+
+  & .mainBannerBlock1 {
+    top: 270px;
+    right: 100px;
+    animation: slideDown 5s 0.5s infinite ease;
+  }
+  & .mainBannerBlock2 {
+    top: 115px;
+    right: 40px;
+    animation: slideDown 5s 1.5s infinite ease;
+  }
+  & .mainBannerBlock3 {
+    top: 45px;
+    right: 130px;
+    animation: slideDown 5s 2s infinite ease;
+  }
+}
+
+.mainPageWrapper .mainInfoWrapper .mainInfoInner {
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & .mainInfoItem {
+    width: 30%;
+    text-align: center;
+
+    & .mainInfoBigText {
+      font-size: 30px;
+      font-weight: 700;
+      padding: 35px 0px;
+    }
+
+    & .mainInfoSmallText {
+      font-size: 20px;
+      line-height: 40px;
+    }
+
+    & img {
+      width: 180px;
+    }
+  }
+}
+
+.mainPageWrapper .mainProjectWrapper .mainProjectInner {
+  height: 470px;
+  margin-top: 100px;
+
+  & .projectSlider {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  & .slick-next:before,
+  .slick-prev:before {
+    color: #515151;
+  }
+
+  & .projectItemWrapper {
+    @include projectItemWidth(100%);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(0%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(100%);
+  }
+}

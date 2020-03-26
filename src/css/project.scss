@@ -1,0 +1,36 @@
+@mixin projectItemWidth($width) {
+  width: $width;
+}
+
+.projectItemWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.projectItemWrapper .projectItemInner {
+  width: 240px;
+  height: 360px;
+  background: white;
+
+  & .projectItemThumnail {
+    width: 100%;
+    height: 260px;
+    margin-bottom: 15px;
+    & > img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  & .projectItemType {
+    padding-left: 15px;
+    font-size: 12px;
+  }
+
+  & .projectItemTitle {
+    font-size: 22px;
+    padding-left: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

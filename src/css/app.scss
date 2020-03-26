@@ -1,0 +1,22 @@
+$primary-color: #333;
+$second-color: #b9b9b9;
+
+body,
+html {
+  margin: 0px;
+  padding: 0px;
+  font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
+}
+
+a {
+  &,
+  &:visited,
+  &:active {
+    text-decoration: none;
+    color: #000;
+  }
+}
+
+body {
+  margin-top: 50px;
+}

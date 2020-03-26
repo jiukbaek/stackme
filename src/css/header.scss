@@ -1,0 +1,100 @@
+$border-color: #b9b9b9;
+$lightgray-color: #edf2f3;
+$white-color: #fff;
+
+header {
+  width: 100%;
+  position: fixed;
+  top: 0px;
+  border-bottom: solid 1px $border-color;
+  z-index: 100;
+  background: $white-color;
+}
+
+.headerWrapper {
+  max-width: 1200px;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.headerWrapper .headerLeft {
+  padding-left: 10px;
+  float: left;
+}
+.headerWrapper .headerRight {
+  padding-right: 10px;
+  float: right;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+
+  & > div {
+    display: inline-block;
+  }
+
+  & a {
+    display: inline-block;
+    cursor: pointer;
+    padding: 12px 10px;
+  }
+}
+
+.headerWrapper .headerRight .headerUserWrapper {
+  position: relative;
+  width: 130px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  & .headerUserInfo {
+    width: 100%;
+    height: 100%;
+    line-height: 50px;
+    text-align: center;
+
+    &.on + .userContext {
+      display: block !important;
+    }
+  }
+
+  & .userName {
+    font-size: 14px;
+    margin-right: 10px;
+  }
+
+  & .userContext {
+    position: absolute;
+    width: 105px;
+    top: 100%;
+    right: 12px;
+    border: solid 1px $border-color;
+    background: $white-color;
+    display: none;
+    z-index: 101;
+
+    & .divider {
+      width: 100%;
+      height: 1px;
+      background: $border-color;
+    }
+
+    & a {
+      padding: 10px 10px;
+      display: block;
+      font-size: 13px;
+      cursor: pointer;
+      &:hover {
+        background: $lightgray-color;
+      }
+
+      & i {
+        margin-right: 5px;
+      }
+    }
+  }
+}
