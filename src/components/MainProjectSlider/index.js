@@ -25,7 +25,7 @@ function MainProjectSlider() {
   return (
     <Slider {...config}>
       {result &&
-        result.data.map(project => (
+        result.map(project => (
           <ProjectItem
             key={project.id}
             thumnail={project.thumnail}

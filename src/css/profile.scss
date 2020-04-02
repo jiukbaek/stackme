@@ -1,10 +1,126 @@
 .profilePageWrapper {
   width: 100%;
+  min-height: 100vh;
+  padding: 50px 0px;
+  background-color: #baceec;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-  .profileWrapper {
-    max-width: 1200px;
-    height: 50px;
-    margin: 0 auto;
-    background: blue;
+  & .profileWrapper {
+    margin-bottom: 30px;
+  }
+
+  & .careerWrapper {
+    margin-bottom: 10px;
+    & .careerModifyButton {
+      background: none;
+      border: none;
+    }
+  }
+
+  & .profileWrapper,
+  .careerWrapper {
+    width: 80%;
+    max-width: 700px;
+    background: white;
+    border: solid 1px #eaeeff;
+    box-shadow: inset 0 1px 2px rgba(27, 31, 35, 0.075);
+    padding: 10px 15px;
+
+    & .wrapperTitle {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+  }
+}
+
+.profileWrapper {
+  & .profileItem {
+    font-size: 14px;
+    margin: 10px 0px;
+
+    & > div {
+      display: inline-block;
+    }
+
+    & .profileItemInfo .profileItemTitle {
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+    & .profileItemInfo .profileItemContent {
+      & input {
+        background: none;
+        border: none;
+        border-bottom: solid 1px gray;
+        outline: none;
+      }
+    }
+
+    & .profileItemEdit {
+      & button {
+        box-sizing: border-box;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.careerWrapper {
+  margin-bottom: 10px;
+  & .careerRowWrapper {
+    & > div {
+      display: inline-block;
+    }
+
+    & .careerItem {
+      max-width: 100%;
+      font-size: 14px;
+      margin: 10px 40px 10px 0px;
+
+      & .careerItemTitle {
+        font-size: 13px;
+        margin-bottom: 2px;
+      }
+
+      & .careerItemContent {
+        & input {
+          max-width: 100%;
+          background: none;
+          border: none;
+          border-bottom: solid 1px gray;
+          outline: none;
+        }
+
+        & .dutyInput {
+          width: 355px;
+        }
+      }
+    }
+  }
+
+  & .careerButtons {
+    margin: 10px 0px;
+    text-align: center;
+    & > button {
+      border: none;
+      border: solid 1px #b9b9b9;
+      padding: 5px 12px;
+      background: none;
+      margin-right: 5px;
+      outline: none;
+      cursor: pointer;
+
+      &.addButton {
+        background-color: #3075ec;
+        color: white;
+      }
+
+      &:active {
+        transform: scale(0.96);
+      }
+    }
   }
 }

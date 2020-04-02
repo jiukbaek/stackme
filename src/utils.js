@@ -11,16 +11,33 @@ export const getProjectType = type => {
 };
 
 const showUserContext = () => {
-  document.querySelector(".headerUserInfo").classList.add("on");
+  const userContext = document.querySelector(".headerUserInfo");
+  if (userContext)
+    document.querySelector(".headerUserInfo").classList.add("on");
 };
 
 export const closeUserContext = () => {
-  document.querySelector(".headerUserInfo").classList.remove("on");
+  const userContext = document.querySelector(".headerUserInfo");
+  if (userContext)
+    document.querySelector(".headerUserInfo").classList.remove("on");
 };
 
 export const toggleUserContext = () => {
-  const active = document
-    .querySelector(".headerUserInfo")
-    .classList.contains("on");
-  active ? closeUserContext() : showUserContext();
+  const active = document.querySelector(".headerUserInfo");
+  if (active)
+    active.classList.contains("on") ? closeUserContext() : showUserContext();
+};
+
+export const getToken = () => {
+  return localStorage.getItem("token");
+};
+
+export const makeDate = date => {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
+  return `${year}-${month < 10 ? "0" + month : month}-${
+    day < 10 ? "0" + day : day
+  }`;
 };

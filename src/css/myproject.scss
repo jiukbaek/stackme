@@ -1,0 +1,96 @@
+.myProjectPageWrapper {
+  width: 100%;
+  min-height: 100vh;
+
+  & .myProjectWrapper {
+    width: 100%;
+    max-width: 1200px;
+    background: blue;
+    height: 30px;
+    margin: 0 auto;
+  }
+}
+
+.projectRegistPageWrapper {
+  width: 100%;
+  min-height: 100vh;
+
+  & .projectRegistWrapper {
+    width: 100%;
+    max-width: 1200px;
+    padding: 25px 0px;
+    margin: 0 auto;
+
+    & .toggleShowingWrapper,
+    & .typeSelectorWrapper {
+      width: 200px;
+      margin-bottom: 10px;
+    }
+
+    & .dateWrapper {
+      & > * {
+        display: inline-block;
+        &:first-child {
+          margin-right: 50px;
+        }
+      }
+
+      & input {
+        box-sizing: border-box;
+        border: solid 1px hsl(0, 0%, 80%);
+        width: 200px;
+        height: 38px;
+        border-radius: 4px;
+        text-indent: 10px;
+        margin: 5px 0px;
+      }
+    }
+
+    & .titleWrapper,
+    .urlWrapper,
+    .giturlWrapper {
+      width: 100%;
+      margin-bottom: 10px;
+
+      & input {
+        box-sizing: border-box;
+        border: solid 1px hsl(0, 0%, 80%);
+        width: 100%;
+        height: 38px;
+        border-radius: 4px;
+        text-indent: 10px;
+        margin: 5px 0px;
+      }
+    }
+
+    & .skillWrapper {
+      margin-top: 10px;
+    }
+
+    & .registButtons {
+      text-align: left;
+      & > button {
+        &:first-child {
+          background-color: #1d63dc;
+          color: white;
+          margin-right: 10px;
+        }
+
+        box-sizing: border-box;
+        padding: 10px 22px;
+        border: none;
+        border: solid 1px lightgray;
+        border-radius: 5px;
+        background-color: white;
+        cursor: pointer;
+      }
+    }
+  }
+
+  & .registLabel {
+    font-size: 13px;
+  }
+  & .registSelector {
+    margin: 5px 0px;
+  }
+}

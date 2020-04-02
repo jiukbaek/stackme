@@ -40,7 +40,8 @@ export const loginAsync = (email, password) => async (
     });
     history.push("/");
   } catch (e) {
-    dispatch({ type: LOGIN_FAIL, error: "계정 정보가 없습니다" });
+    if (e.response.status === 404)
+      dispatch({ type: LOGIN_FAIL, error: "계정정보가 없습니다." });
   }
 };
 

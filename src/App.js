@@ -12,6 +12,8 @@ import "./css/app.scss";
 import "./css/header.scss";
 import "./css/footer.scss";
 import { closeUserContext } from "./utils";
+import ProjectEditPage from "./pages/ProjectResigtPage";
+import ProjectRegistPage from "./pages/ProjectResigtPage";
 
 const App = () => {
   document.querySelector("body").addEventListener("click", e => {
@@ -36,12 +38,17 @@ const App = () => {
           exact={true}
         />
         <PrivateRoute
-          path="/me/project"
+          path="/meproject"
           redirectTo="/login"
           component={MyProject}
           exact={true}
         />
-        <Route path="*" component={Main} />
+        <PrivateRoute
+          path="/meprojectregist"
+          redirectTo="/login"
+          component={ProjectRegistPage}
+          exact={true}
+        />
       </Switch>
       <Footer />
     </>

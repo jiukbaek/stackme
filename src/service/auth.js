@@ -7,10 +7,12 @@ export const login = async (email, password) => {
   if (result) {
     const { token } = result.data;
     localStorage.setItem("token", token);
+    localStorage.setItem("email", email);
   }
   return result;
 };
 
 export const logout = () => {
   localStorage.removeItem("token");
+  localStorage.removeItem("email");
 };
