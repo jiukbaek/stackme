@@ -8,16 +8,17 @@ import useInput from "../../Hooks/useInput";
 import DatePicker from "react-datepicker";
 import { useDispatch, useSelector } from "react-redux";
 import "../../css/react-datepicker.css";
-import { projectRegistAsync } from "../../modules/project";
+import { projectModifyAsync, getProjectIdAsync } from "../../modules/project";
 import { getAllSkillAsync } from "../../modules/skill";
 import { withRouter } from "react-router-dom";
 
 CKEditor.editorUrl = "/config/ckeditor/ckeditor.js";
 
-function ProjectRegistPage({ location, match, history }) {
+function ProjectModifyPage({ history }) {
   const animatedComponents = makeAnimated();
 
   const skill = useSelector((state) => state.skill);
+  const project = useSelector((state) => state.project.project);
   const dispatch = useDispatch();
 
   const editor = useRef();
@@ -26,11 +27,11 @@ function ProjectRegistPage({ location, match, history }) {
   const urlInput = useInput("");
   const gitInput = useInput("");
 
-  const [type, setType] = useState(1);
-  const [showing, setShowing] = useState("N");
+  const [type, setType] = useState("");
+  const [showing, setShowing] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(null);
-  const [useSkill, setUseSkill] = useState([]);
+  const [useSkill, setUseSkill] = useState(null);
 
   const typeSelectOption = [
     { value: 1, label: getProjectType(1) },
@@ -51,8 +52,26 @@ function ProjectRegistPage({ location, match, history }) {
     }));
 
   useEffect(() => {
-    dispatch(getAllSkillAsync());
+    if (!skill.skills) {
+      dispatch(getAllSkillAsync());
+    }
+    if (!project) {
+      dispatch(getProjectIdAsync(localStorage.getItem("cpId")));
+    }
   }, []);
+
+  useEffect(() => {
+    if (project) {
+      titleInput.setValue(project ? project.title : "");
+      urlInput.setValue(project.url ? project.url : "");
+      gitInput.setValue(project.git_url ? project.git_url : "");
+      setType(project ? project.type : "");
+      setShowing(project ? project.showing : "");
+      setStartDate(project ? new Date(project.start_date) : new Date());
+      setEndDate(project.end_date ? new Date(project.end_date) : null);
+      setUseSkill(project ? project.skills.split(",").map((val) => +val) : []);
+    }
+  }, [project]);
 
   const submitProject = () => {
     const content = editor.current.editor.getData();
@@ -66,7 +85,7 @@ function ProjectRegistPage({ location, match, history }) {
     }
 
     dispatch(
-      projectRegistAsync({
+      projectModifyAsync({
         content,
         title,
         type,
@@ -85,25 +104,30 @@ function ProjectRegistPage({ location, match, history }) {
       <div className="projectRegistWrapper">
         <div className="toggleShowingWrapper">
           <div className="registLabel">공개 설정</div>
-          <Select
-            options={showingSelectOption}
-            defaultValue={showingSelectOption[0]}
-            className="registSelector"
-            onChange={(e) => {
-              setShowing(e.value);
-            }}
-          />
+          {showing && (
+            <Select
+              options={showingSelectOption}
+              defaultValue={showingSelectOption[showing === "Y" ? 1 : 0]}
+              className="registSelector"
+              onChange={(e) => {
+                setShowing(e.value);
+              }}
+            />
+          )}
         </div>
         <div className="typeSelectorWrapper">
           <div className="registLabel">프로젝트 타입</div>
-          <Select
-            options={typeSelectOption}
-            defaultValue={typeSelectOption[0]}
-            className="registSelector"
-            onChange={(e) => {
-              setType(e.value);
-            }}
-          />
+          {type && (
+            <Select
+              options={typeSelectOption}
+              defaultValue={typeSelectOption[parseInt(type) - 1]}
+              className="registSelector"
+              onChange={(e) => {
+                console.log(e);
+                setType(e.value);
+              }}
+            />
+          )}
         </div>
         <div className="dateWrapper">
           <div>
@@ -134,25 +158,33 @@ function ProjectRegistPage({ location, match, history }) {
             value={titleInput.value}
           />
         </div>
-        <CKEditor
-          config={{ customConfig: "/config/ckeditConfig.js" }}
-          ref={editor}
-          onChange={(e) => {
-            console.log(e.editor.getData());
-          }}
-        />
+        {project && (
+          <CKEditor
+            config={{ customConfig: "/config/ckeditConfig.js" }}
+            ref={editor}
+            onChange={(e) => {
+              console.log(e.editor.getData());
+            }}
+            data={project.content}
+          />
+        )}
         <div className="skillWrapper">
           <div className="registLabel">사용 기술</div>
-          <Select
-            options={skillSelectOption}
-            components={animatedComponents}
-            isMulti
-            className="registSelector"
-            onChange={(value) => {
-              console.log(value);
-              setUseSkill(value ? value.map((skill) => skill.value) : []);
-            }}
-          />
+          {useSkill && (
+            <Select
+              options={skillSelectOption}
+              components={animatedComponents}
+              defaultValue={
+                skillSelectOption &&
+                (() => useSkill.map((value) => skillSelectOption[value - 1]))()
+              }
+              isMulti
+              className="registSelector"
+              onChange={(value) => {
+                setUseSkill(value ? value.map((skill) => skill.value) : []);
+              }}
+            />
+          )}
         </div>
         <div className="urlWrapper">
           <div className="registLabel">프로젝트 참고 URL</div>
@@ -179,4 +211,4 @@ function ProjectRegistPage({ location, match, history }) {
   );
 }
 
-export default withRouter(ProjectRegistPage);
+export default withRouter(ProjectModifyPage);

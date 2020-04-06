@@ -5,9 +5,86 @@
   & .myProjectWrapper {
     width: 100%;
     max-width: 1200px;
-    background: blue;
-    height: 30px;
+    padding: 25px 0px;
     margin: 0 auto;
+
+    & .myProjectTop {
+      text-align: right;
+
+      & button {
+        border: none;
+        border: solid 1px #b9b9b9;
+        border-radius: 3px;
+        background: white;
+        padding: 6px 16px;
+        cursor: pointer;
+      }
+    }
+
+    & .myProjectListWrapper {
+      margin: 30px 0px;
+      & .myProjectItemWrapper {
+        height: 270px;
+        padding: 30px 10px;
+        border: solid 1px #eaeaef;
+        margin: 10px 0px;
+        cursor: pointer;
+
+        &:hover {
+          border: solid 1px #1d63dc;
+        }
+
+        & > div {
+          float: left;
+        }
+
+        & .myProjectItemThumnail {
+          width: 30%;
+          height: 100%;
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+
+          & img {
+            width: 100%;
+            height: auto;
+          }
+        }
+
+        & .myProjectItemContent {
+          width: 60%;
+          padding-left: 25px;
+          height: 100%;
+
+          & > div {
+            margin-bottom: 15px;
+          }
+
+          & .myProjectItemColumn {
+            & > div {
+              display: inline-block;
+              width: 100px;
+              margin-right: 10px;
+            }
+          }
+
+          & .myProjectItemContentLabel {
+            font-size: 12px;
+          }
+        }
+
+        & .myProjectItemManage {
+          float: right;
+          & button {
+            border: none;
+            background: none;
+            color: gray;
+            font-size: 14px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
   }
 }
 

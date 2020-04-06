@@ -41,3 +41,13 @@ export const makeDate = date => {
     day < 10 ? "0" + day : day
   }`;
 };
+
+export const removeHtml = content => {
+  const removedImg = content.replace(/<IMG(.*?)>/gi, content);
+  const removedHtml = removedImg
+    .replace(/<br\/>/gi, " ")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/gi, "");
+
+  return removedHtml;
+};

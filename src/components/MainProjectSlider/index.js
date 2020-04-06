@@ -31,6 +31,7 @@ function MainProjectSlider() {
             thumnail={project.thumnail}
             type={project.type}
             title={project.title}
+            content={project.content}
           />
         ))}
     </Slider>

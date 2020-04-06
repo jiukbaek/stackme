@@ -14,9 +14,10 @@ import "./css/footer.scss";
 import { closeUserContext } from "./utils";
 import ProjectEditPage from "./pages/ProjectResigtPage";
 import ProjectRegistPage from "./pages/ProjectResigtPage";
+import ProjectModifyPage from "./pages/ProjectModifyPage";
 
 const App = () => {
-  document.querySelector("body").addEventListener("click", e => {
+  document.querySelector("body").addEventListener("click", (e) => {
     const userWrapper = document.querySelector(".headerUserInfo");
     const clickedUser = e.path.includes(userWrapper);
     if (!clickedUser) {
@@ -47,6 +48,12 @@ const App = () => {
           path="/meprojectregist"
           redirectTo="/login"
           component={ProjectRegistPage}
+          exact={true}
+        />
+        <PrivateRoute
+          path="/meprojectmodify"
+          redirectTo="/login"
+          component={ProjectModifyPage}
           exact={true}
         />
       </Switch>

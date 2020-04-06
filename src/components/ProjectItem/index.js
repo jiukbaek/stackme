@@ -1,7 +1,7 @@
 import React from "react";
-import { getProjectType } from "../../utils";
+import { getProjectType, removeHtml } from "../../utils";
 
-function ProjectItem({ type, title, thumnail }) {
+function ProjectItem({ type, title, thumnail, content }) {
   return (
     <div className="projectItemWrapper">
       <div className="projectItemInner">
@@ -10,6 +10,7 @@ function ProjectItem({ type, title, thumnail }) {
         </div>
         <div className="projectItemType">{getProjectType(type)}</div>
         <div className="projectItemTitle">{title}</div>
+        <div className="projectItemContent">{removeHtml(content)}</div>
       </div>
     </div>
   );

@@ -1,7 +1,10 @@
 import {
   getProjectRandom,
   getMyProject,
-  registProject
+  registProject,
+  getProjectId,
+  modifyProject,
+  deleteProject,
 } from "../service/project";
 
 const PROJECT_REQUEST = "project/PROJECT_REQUEST";
@@ -9,8 +12,12 @@ const PROJECT_RANDOM = "project/PROJECT_RANDOM";
 const PROJECTS_SUCCESS = "project/PROJECTS_SUCCESS";
 const PROJECTS_FAIL = "project/PROJECTS_FAIL";
 const PROJECT_REGIST = "project/PROJECT_REGIST";
+const PROJECT_SUCCESS = "project/PROJECT_SUCCESS";
+const PROJECT_FAIL = "project/PROJECT_FAIL";
+const PROJECT_MODIFY = "project/PROJECT_MODIFY";
+const PROJECT_DELETE = "project/PROJECT_DELETE";
 
-export const projectRandom = count => async (dispatch, getState) => {
+export const projectRandom = (count) => async (dispatch, getState) => {
   dispatch({ type: PROJECT_REQUEST });
   try {
     const result = await getProjectRandom(count);
@@ -23,7 +30,7 @@ export const projectRandom = count => async (dispatch, getState) => {
   }
 };
 
-export const projectRegistAsync = values => async (
+export const projectRegistAsync = (values) => async (
   dispatch,
   getState,
   { history }
@@ -49,10 +56,40 @@ export const getMyProjectAsync = () => async (dispatch, getState) => {
   }
 };
 
+export const getProjectIdAsync = (id) => async (dispatch, getState) => {
+  dispatch({ type: PROJECT_REQUEST });
+  try {
+    const result = await getProjectId(id);
+    dispatch({ type: PROJECT_SUCCESS, project: result.data.data });
+  } catch (e) {}
+};
+
+export const projectModifyAsync = (values) => async (
+  dispatch,
+  getState,
+  { history }
+) => {
+  dispatch({ type: PROJECT_REQUEST });
+  try {
+    const result = await modifyProject(values);
+    dispatch({ type: PROJECT_MODIFY, project: result.data.data });
+    history.goBack();
+  } catch (e) {}
+};
+
+export const deleteProjectAsync = (id) => async (dispatch, getState) => {
+  dispatch({ type: PROJECT_REQUEST });
+  try {
+    const result = await deleteProject(id);
+    dispatch({ type: PROJECT_DELETE, project: result.data.data });
+  } catch (e) {}
+};
+
 const initialState = {
   loading: false,
   projects: [],
-  error: null
+  project: null,
+  error: null,
 };
 
 export default function project(state = initialState, action) {
@@ -62,7 +99,8 @@ export default function project(state = initialState, action) {
         ...state,
         loading: true,
         projects: state.projects ? state.projects : [],
-        error: null
+        project: state.project ? state.project : null,
+        error: null,
       };
     case PROJECT_RANDOM:
       return {};
@@ -71,21 +109,55 @@ export default function project(state = initialState, action) {
         ...state,
         loading: false,
         projects: action.projects,
-        error: null
+        error: null,
       };
     case PROJECTS_FAIL:
       return {
         ...state,
         loading: false,
         projects: [],
-        error: action.error
+        error: action.error,
       };
     case PROJECT_REGIST:
       return {
         ...state,
         loading: false,
         projects: [...state.projects, action.project],
-        error: null
+        error: null,
+      };
+    case PROJECT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        project: action.project,
+        error: null,
+      };
+    case PROJECT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        project: null,
+        error: action.error,
+      };
+    case PROJECT_MODIFY:
+      return {
+        ...state,
+        loading: false,
+        projects: state.projects.map((project) => {
+          if (project.id === action.project.id) return action.project;
+          return project;
+        }),
+        project: action.project,
+        error: null,
+      };
+    case PROJECT_DELETE:
+      return {
+        ...state,
+        loading: false,
+        projects: state.projects.filter((project) => {
+          if (project.id === action.project.id) return false;
+          return true;
+        }),
       };
     default:
       return state;
