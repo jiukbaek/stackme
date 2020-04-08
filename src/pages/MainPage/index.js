@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "../../css/main.scss";
 import MainInfoItem from "../../components/MainInfoItem";
 import MainProjectSlider from "../../components/MainProjectSlider";

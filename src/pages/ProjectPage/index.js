@@ -44,23 +44,31 @@ const Project = () => {
           <div className="projectDetailDivider"></div>
           <div className="projectDetailSkills">
             <div className="projectDetailLabel">사용 기술</div>
-            <div className="projectDetailSkillsContent">
-              {project.skills.split(",").map((skill) => (
-                <div key={skill}>{skills[parseInt(skill) - 1].skill}</div>
-              ))}
-            </div>
+            {skills && (
+              <div className="projectDetailSkillsContent">
+                {project.skills.split(",").map((skill) => (
+                  <div key={skill}>{skills[parseInt(skill) - 1].skill}</div>
+                ))}
+              </div>
+            )}
           </div>
           <div className="projectDetailUrl">
             <div className="projectDetailLabel">참고 URL</div>
             <div className="projectDetailUrlContent">
-              {project.url ? project.url : "❌ 링크가 없어요"}
+              {project.url ? (
+                <a href={project.url} target="_blank">
+                  {project.url}
+                </a>
+              ) : (
+                "❌ 링크가 없어요"
+              )}
             </div>
           </div>
           <div className="projectDetailUrl">
             <div className="projectDetailLabel">깃 허브</div>
             <div className="projectDetailUrlContent">
               <span className="projectDetailEmptyText">
-                {project.git_url ? project.git_url : "❌ 링크가 없어요"}
+                {project.git_url ? project.git_url : "❌ 깃허브가 없어요"}
               </span>
             </div>
           </div>

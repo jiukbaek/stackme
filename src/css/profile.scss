@@ -13,9 +13,16 @@
 
   & .careerWrapper {
     margin-bottom: 10px;
-    & .careerModifyButton {
+
+    & .careerModifyButton,
+    .careerDeleteButton {
       background: none;
       border: none;
+      cursor: pointer;
+
+      &:hover {
+        color: #3075ec;
+      }
     }
   }
 

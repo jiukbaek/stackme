@@ -7,9 +7,9 @@ import { getCareerAsync } from "../../modules/career";
 import CareerBox from "../../components/CareerBox";
 
 function Profile() {
-  const { currentUser } = useSelector(state => state.auth);
-  const { user } = useSelector(state => state.user);
-  const { careers } = useSelector(state => state.career);
+  const { currentUser } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.user);
+  const { careers } = useSelector((state) => state.career);
   const dispatch = useDispatch();
 
   const getUser = async () => {
@@ -46,9 +46,10 @@ function Profile() {
           </>
         )}
       </div>
-      {careers && careers[0].end_date && <CareerBox action={"write"} />}
+
+      <CareerBox action={"write"} />
       {careers &&
-        careers.map(career => <CareerBox key={career.id} career={career} />)}
+        careers.map((career) => <CareerBox key={career.id} career={career} />)}
     </section>
   );
 }

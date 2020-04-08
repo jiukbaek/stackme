@@ -2,6 +2,10 @@
   width: 100%;
   min-height: 100vh;
 
+  &.loading {
+    opacity: 0.3;
+  }
+
   & .myProjectWrapper {
     width: 100%;
     max-width: 1200px;
@@ -11,13 +15,71 @@
     & .myProjectTop {
       text-align: right;
 
-      & button {
+      & > a > button {
         border: none;
         border: solid 1px #b9b9b9;
         border-radius: 3px;
         background: white;
         padding: 6px 16px;
         cursor: pointer;
+      }
+
+      & .myProjectOptionsWrapper {
+        width: 100%;
+        border: solid 1px #eaeaef;
+        text-align: left;
+        padding: 10px 0px;
+        margin: 20px 0px;
+
+        & .myProjectOptionsWrapperLabel {
+          padding: 5px 10px 15px 10px;
+          font-size: 15px;
+          & > i {
+            font-size: 14px;
+            color: gray;
+          }
+        }
+
+        & .myProjectOptionLabel {
+          font-size: 13px;
+          padding: 0 20px;
+        }
+
+        & .myProjectOptionSkill {
+          & .myProjectOptionSkillSelect {
+            padding: 5px 20px;
+          }
+        }
+
+        & .myProjectOptionSearch {
+          & .myProjectOptionSearchInput {
+            padding: 5px 20px;
+            & input {
+              width: 100%;
+              box-sizing: border-box;
+              border-radius: 4px;
+              height: 38px;
+              border: solid 1px;
+              background-color: hsl(0, 0%, 100%);
+              border-color: hsl(0, 0%, 80%);
+              padding-left: 10px;
+              outline: none;
+            }
+          }
+        }
+
+        & .myProjectOptionSubmit {
+          padding: 10px 20px;
+          text-align: right;
+          & > button {
+            border: none;
+            background: #229fe7;
+            color: white;
+            border-radius: 3px;
+            padding: 6px 14px;
+            cursor: pointer;
+          }
+        }
       }
     }
 

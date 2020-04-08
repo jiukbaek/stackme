@@ -7,11 +7,17 @@ export const getProjectRandom = async (count = 10) => {
   return await axios.get(`${API_URL}/project/random?number=${count}`);
 };
 
-export const getMyProject = async () => {
+export const getMyProject = async (page, perPage) => {
   const token = getToken();
-  return await axios.get(`${API_URL}/project`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  const result = await axios.get(
+    `${API_URL}/project?page=${page}&perPage=${perPage}`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+
+  console.log(result);
+  return result;
 };
 
 export const registProject = async (values) => {

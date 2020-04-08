@@ -5,19 +5,28 @@
 .projectItemWrapper {
   display: flex;
   justify-content: center;
+  cursor: pointer;
 }
 
 .projectItemWrapper .projectItemInner {
   width: 240px;
   height: 380px;
   background: white;
+  transition: box-shadow 0.5s;
+
+  &:hover {
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
+  }
 
   & .projectItemThumnail {
     width: 100%;
     height: 240px;
     margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
     & > img {
-      width: 100%;
+      width: auto;
       height: 100%;
     }
   }
@@ -43,6 +52,7 @@
 .projectDetailWrapper {
   width: 100%;
   max-width: 1200px;
+  min-height: 100vh;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -75,8 +85,9 @@
     margin: 8px 0px 4px 0px;
   }
   & .projectDetailContent {
-    & > img {
+    & img {
       max-width: 100%;
+      height: auto;
     }
   }
   & .projectDetailSkills {

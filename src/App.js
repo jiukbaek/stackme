@@ -12,9 +12,9 @@ import "./css/app.scss";
 import "./css/header.scss";
 import "./css/footer.scss";
 import { closeUserContext } from "./utils";
-import ProjectEditPage from "./pages/ProjectResigtPage";
-import ProjectRegistPage from "./pages/ProjectResigtPage";
+import ProjectRegistPage from "./pages/ProjectRegistPage";
 import ProjectModifyPage from "./pages/ProjectModifyPage";
+import ScrollTop from "./components/ScrollTop";
 
 const App = () => {
   document.querySelector("body").addEventListener("click", (e) => {
@@ -28,6 +28,7 @@ const App = () => {
   return (
     <>
       <Header />
+      <ScrollTop />
       <Switch>
         <Route path="/" component={Main} exact={true} />
         <Route path="/login" component={Login} />

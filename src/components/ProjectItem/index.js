@@ -1,9 +1,9 @@
 import React from "react";
 import { getProjectType, removeHtml } from "../../utils";
 
-function ProjectItem({ type, title, thumnail, content }) {
+function ProjectItem({ type, title, thumnail, content, onClick }) {
   return (
-    <div className="projectItemWrapper">
+    <div className="projectItemWrapper" onClick={onClick}>
       <div className="projectItemInner">
         <div className="projectItemThumnail">
           <img src={`/public/thumnail/${thumnail}`} />

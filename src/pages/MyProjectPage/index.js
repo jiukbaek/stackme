@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "../../css/myproject.scss";
@@ -9,10 +9,27 @@ import {
 } from "../../modules/project";
 import { getProjectType, removeHtml } from "../../utils";
 import { getAllSkillAsync } from "../../modules/skill";
+import Pagination from "../../components/Pagination";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
+import useInput from "../../Hooks/useInput";
 
 function MyProjectPage({ location, match, history }) {
-  const projects = useSelector((state) => state.project);
+  const animatedComponents = makeAnimated();
+  const { projects, pagination, loading } = useSelector(
+    (state) => state.project
+  );
+  const { skills } = useSelector((state) => state.skill);
   const dispatch = useDispatch();
+  const searchInput = useInput("");
+  const [filterSkill, setFilterSkill] = useState(null);
+
+  const skillSelectOption =
+    skills &&
+    skills.map((obj) => ({
+      value: obj.id,
+      label: obj.skill,
+    }));
 
   useEffect(() => {
     dispatch(getAllSkillAsync());
@@ -33,17 +50,52 @@ function MyProjectPage({ location, match, history }) {
     await dispatch(deleteProjectAsync(id));
   };
 
+  const changePage = async (page) => {
+    await dispatch(getMyProjectAsync(page));
+    window.scrollTo(0, 0);
+  };
+
+  const setFilter = () => {};
+
   return (
-    <section className="myProjectPageWrapper">
+    <section className={`myProjectPageWrapper${loading ? " loading" : ""}`}>
       <div className="myProjectWrapper">
         <div className="myProjectTop">
+          <div className="myProjectOptionsWrapper">
+            <div className="myProjectOptionsWrapperLabel">
+              필터 <i class="fa fa-filter"></i>
+            </div>
+            <div className="myProjectOptionSkill">
+              <div className="myProjectOptionLabel">사용 기술</div>
+              <div className="myProjectOptionSkillSelect">
+                <Select
+                  options={skillSelectOption}
+                  components={animatedComponents}
+                  isMulti
+                />
+              </div>
+            </div>
+            <div className="myProjectOptionSearch">
+              <div className="myProjectOptionLabel">제목 검색</div>
+              <div className="myProjectOptionSearchInput">
+                <input
+                  type="text"
+                  value={searchInput.value}
+                  onChange={searchInput.onChange}
+                />
+              </div>
+            </div>
+            <div className="myProjectOptionSubmit">
+              <button>적용</button>
+            </div>
+          </div>
           <Link to="/meprojectregist">
             <button>등록</button>
           </Link>
         </div>
         <div className="myProjectListWrapper">
-          {projects.projects &&
-            projects.projects.map((project) => (
+          {projects &&
+            projects.map((project) => (
               <div
                 className="myProjectItemWrapper"
                 key={project.id}
@@ -104,6 +156,9 @@ function MyProjectPage({ location, match, history }) {
               </div>
             ))}
         </div>
+        {pagination && (
+          <Pagination pagination={pagination} onChange={changePage} />
+        )}
       </div>
     </section>
   );

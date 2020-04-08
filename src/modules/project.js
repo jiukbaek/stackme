@@ -43,11 +43,19 @@ export const projectRegistAsync = (values) => async (
   } catch (e) {}
 };
 
-export const getMyProjectAsync = () => async (dispatch, getState) => {
+export const getMyProjectAsync = (page = 1, perPage = 10) => async (
+  dispatch,
+  getState
+) => {
   dispatch({ type: PROJECT_REQUEST });
   try {
-    const result = await getMyProject();
-    dispatch({ type: PROJECTS_SUCCESS, projects: result.data.data });
+    const result = await getMyProject(page, perPage);
+    console.log(result);
+    dispatch({
+      type: PROJECTS_SUCCESS,
+      projects: result.data.data,
+      pagination: result.data.pagenation,
+    });
   } catch (e) {
     if (e.response.status === 404)
       dispatch({ type: PROJECTS_SUCCESS, projects: [] });
@@ -88,6 +96,7 @@ export const deleteProjectAsync = (id) => async (dispatch, getState) => {
 const initialState = {
   loading: false,
   projects: [],
+  pagination: {},
   project: null,
   error: null,
 };
@@ -109,6 +118,7 @@ export default function project(state = initialState, action) {
         ...state,
         loading: false,
         projects: action.projects,
+        pagination: action.pagination,
         error: null,
       };
     case PROJECTS_FAIL:

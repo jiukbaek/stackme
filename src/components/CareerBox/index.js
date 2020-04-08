@@ -1,26 +1,42 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import useInput from "../../Hooks/useInput";
-import { createCareerAsync, modifyCareerAsync } from "../../modules/career";
+import {
+  createCareerAsync,
+  modifyCareerAsync,
+  deleteCareerAsync,
+} from "../../modules/career";
+import DatePicker from "react-datepicker";
+import "../../css/react-datepicker.css";
+import { makeDate } from "../../utils";
 
 const CareerItem = ({
   title,
   content = "",
   action,
   inputClass = "",
-  input
+  input,
+  date = false,
 }) => {
   return (
     <div className="careerItem">
       <div className="careerItemTitle">{title}</div>
       <div className="careerItemContent">
         {action ? (
-          <input
-            type="text"
-            value={input.value}
-            onChange={input.onChange}
-            className={inputClass}
-          />
+          !date ? (
+            <input
+              type="text"
+              value={input.value}
+              onChange={input.onChange}
+              className={inputClass}
+            />
+          ) : (
+            <DatePicker
+              selected={input.value}
+              onChange={(val) => input.onChange(val)}
+              dateFormat={"y-MM-dd"}
+            />
+          )
         ) : (
           content
         )}
@@ -29,7 +45,7 @@ const CareerItem = ({
   );
 };
 
-function CareerBox({ action = "", career = {} }) {
+function CareerBox({ action = "", career = null }) {
   const dispatch = useDispatch();
   const [myAction, setMyAction] = useState(action);
 
@@ -37,28 +53,35 @@ function CareerBox({ action = "", career = {} }) {
 
   const companyInput = useInput(career ? career.company : "");
   const dutyInput = useInput(career ? career.duty : "");
-  const joinDateInput = useInput(career ? career.join_date : "");
-  const endDateInput = useInput(
-    career ? (career.end_date ? career.end_date : "") : ""
+  const [joinDate, setJoinDate] = useState(
+    career ? new Date(career.join_date) : ""
+  );
+  const [endDate, setEndDate] = useState(
+    career ? (career.end_date ? new Date(career.end_date) : "") : ""
   );
 
   const resetInputs = () => {
     companyInput.setValue(career ? career.company : "");
     dutyInput.setValue(career ? career.duty : "");
-    joinDateInput.setValue(career ? career.join_date : "");
-    endDateInput.setValue(
-      career ? (career.end_date ? career.end_date : "") : ""
+    setJoinDate(career ? new Date(career.join_date) : "");
+    setEndDate(
+      career ? (career.end_date ? new Date(career.end_date) : "") : ""
     );
+
     if (myAction === "modify") {
       setMyAction("");
     }
   };
 
-  const modifyCareer = id => {
+  const deleteCareer = (id) => {
+    dispatch(deleteCareerAsync(id));
+  };
+
+  const modifyCareer = (id) => {
     const company = companyInput.value;
     const duty = dutyInput.value;
-    const join_date = joinDateInput.value;
-    const end_date = endDateInput.value;
+    const join_date = makeDate(joinDate);
+    const end_date = endDate ? makeDate(endDate) : null;
 
     if (!company || !duty || !join_date) {
       console.log("정보 부족");
@@ -70,7 +93,7 @@ function CareerBox({ action = "", career = {} }) {
         company,
         duty,
         join_date,
-        end_date: end_date ? end_date : null
+        end_date,
       })
     );
 
@@ -82,8 +105,8 @@ function CareerBox({ action = "", career = {} }) {
       createCareerAsync(
         companyInput.value,
         dutyInput.value,
-        joinDateInput.value,
-        endDateInput.value ? endDateInput.value : null
+        makeDate(joinDate),
+        endDate ? makeDate(endDate) : null
       )
     );
   };
@@ -93,12 +116,20 @@ function CareerBox({ action = "", career = {} }) {
       <div className="wrapperTitle">
         {myAction ? (myAction === "write" ? "경력 추가" : "경력 수정") : "경력"}
         {!myAction && (
-          <button
-            className="careerModifyButton"
-            onClick={() => setMyAction("modify")}
-          >
-            <i className="icon icon-pencil"></i>
-          </button>
+          <>
+            <button
+              className="careerModifyButton"
+              onClick={() => setMyAction("modify")}
+            >
+              <i className="icon icon-pencil"></i>
+            </button>
+            <button
+              className="careerDeleteButton"
+              onClick={() => deleteCareer(career.id)}
+            >
+              <i className="icon icon-trash"></i>
+            </button>
+          </>
         )}
       </div>
       <div className="careerRowWrapper">
@@ -123,7 +154,8 @@ function CareerBox({ action = "", career = {} }) {
           title={"입사 날짜"}
           action={myAction}
           content={career ? career.join_date : ""}
-          input={joinDateInput}
+          input={{ value: joinDate, onChange: setJoinDate }}
+          date={true}
         />
         <CareerItem
           title={"퇴사 날짜"}
@@ -131,7 +163,8 @@ function CareerBox({ action = "", career = {} }) {
           content={
             career ? (career.end_date ? career.end_date : "재직 중") : ""
           }
-          input={endDateInput}
+          input={{ value: endDate, onChange: setEndDate }}
+          date={true}
         />
       </div>
       {myAction && (
@@ -141,10 +174,7 @@ function CareerBox({ action = "", career = {} }) {
               className="addButton"
               onClick={() => {
                 createCareer();
-                companyInput.setValue("");
-                dutyInput.setValue("");
-                joinDateInput.setValue("");
-                endDateInput.setValue("");
+                resetInputs();
               }}
             >
               추가
