@@ -1,6 +1,6 @@
 import {
   getProjectRandom,
-  getMyProject,
+  getProject,
   registProject,
   getProjectId,
   modifyProject,
@@ -16,6 +16,7 @@ const PROJECT_SUCCESS = "project/PROJECT_SUCCESS";
 const PROJECT_FAIL = "project/PROJECT_FAIL";
 const PROJECT_MODIFY = "project/PROJECT_MODIFY";
 const PROJECT_DELETE = "project/PROJECT_DELETE";
+const PROJECTS_MORE_SUCCESS = "project/PROJECTS_MORE_SUCCESS";
 
 export const projectRandom = (count) => async (dispatch, getState) => {
   dispatch({ type: PROJECT_REQUEST });
@@ -43,13 +44,14 @@ export const projectRegistAsync = (values) => async (
   } catch (e) {}
 };
 
-export const getMyProjectAsync = (page = 1, perPage = 10) => async (
-  dispatch,
-  getState
-) => {
+export const getProjectAsync = (
+  page = 1,
+  perPage = 10,
+  showing = false
+) => async (dispatch, getState) => {
   dispatch({ type: PROJECT_REQUEST });
   try {
-    const result = await getMyProject(page, perPage);
+    const result = await getProject(page, perPage, showing);
     console.log(result);
     dispatch({
       type: PROJECTS_SUCCESS,
@@ -91,6 +93,16 @@ export const deleteProjectAsync = (id) => async (dispatch, getState) => {
     const result = await deleteProject(id);
     dispatch({ type: PROJECT_DELETE, project: result.data.data });
   } catch (e) {}
+};
+
+export const moreProjectAsync = (page) => async (dispatch, getState) => {
+  dispatch({ type: PROJECT_REQUEST });
+  try {
+    const result = await getProject(page, 10, true);
+    dispatch({ type: PROJECTS_MORE_SUCCESS, projects: result.data.data });
+  } catch (e) {
+    dispatch({ type: PROJECTS_FAIL, error: e });
+  }
 };
 
 const initialState = {
@@ -168,6 +180,14 @@ export default function project(state = initialState, action) {
           if (project.id === action.project.id) return false;
           return true;
         }),
+        error: null,
+      };
+    case PROJECTS_MORE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        projects: [...state.projects, ...action.projects],
+        error: null,
       };
     default:
       return state;

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "../../css/myproject.scss";
 import {
-  getMyProjectAsync,
+  getProjectAsync,
   getProjectIdAsync,
   deleteProjectAsync,
 } from "../../modules/project";
@@ -23,6 +23,7 @@ function MyProjectPage({ location, match, history }) {
   const dispatch = useDispatch();
   const searchInput = useInput("");
   const [filterSkill, setFilterSkill] = useState(null);
+  const skillSelector = useRef();
 
   const skillSelectOption =
     skills &&
@@ -32,8 +33,16 @@ function MyProjectPage({ location, match, history }) {
     }));
 
   useEffect(() => {
+    const savedQ = localStorage.getItem("q");
+    const savedSkill = localStorage.getItem("filterSkill");
+
+    searchInput.setValue(savedQ ? savedQ : "");
+    setFilterSkill(savedSkill ? savedSkill.split(",") : null);
+
+    console.log(savedSkill);
+
     dispatch(getAllSkillAsync());
-    dispatch(getMyProjectAsync());
+    dispatch(getProjectAsync());
   }, []);
 
   const showProject = async (id) => {
@@ -43,7 +52,7 @@ function MyProjectPage({ location, match, history }) {
 
   const modifyProject = async (id) => {
     await dispatch(getProjectIdAsync(id));
-    history.push("/meprojectmodify");
+    history.push("/me/project/modify");
   };
 
   const deleteProject = async (id) => {
@@ -51,11 +60,23 @@ function MyProjectPage({ location, match, history }) {
   };
 
   const changePage = async (page) => {
-    await dispatch(getMyProjectAsync(page));
+    await dispatch(getProjectAsync(page));
     window.scrollTo(0, 0);
   };
 
-  const setFilter = () => {};
+  const setFilter = () => {
+    console.log("1234", filterSkill);
+    if (filterSkill) localStorage.setItem("filterSkill", filterSkill.join(","));
+    else {
+      console.log("1234", filterSkill);
+      localStorage.removeItem("filterSkill");
+    }
+
+    if (searchInput.value) localStorage.setItem("q", searchInput.value);
+    else localStorage.removeItem("q");
+
+    dispatch(getProjectAsync());
+  };
 
   return (
     <section className={`myProjectPageWrapper${loading ? " loading" : ""}`}>
@@ -63,16 +84,33 @@ function MyProjectPage({ location, match, history }) {
         <div className="myProjectTop">
           <div className="myProjectOptionsWrapper">
             <div className="myProjectOptionsWrapperLabel">
-              필터 <i class="fa fa-filter"></i>
+              필터 <i className="fa fa-filter"></i>
             </div>
             <div className="myProjectOptionSkill">
               <div className="myProjectOptionLabel">사용 기술</div>
               <div className="myProjectOptionSkillSelect">
-                <Select
-                  options={skillSelectOption}
-                  components={animatedComponents}
-                  isMulti
-                />
+                {skills && (
+                  <Select
+                    options={skillSelectOption}
+                    components={animatedComponents}
+                    defaultValue={
+                      filterSkill &&
+                      (() =>
+                        filterSkill.map(
+                          (value) => skillSelectOption[value - 1]
+                        ))()
+                    }
+                    isMulti
+                    ref={skillSelector}
+                    onChange={(value) => {
+                      setFilterSkill(
+                        value.length > 0
+                          ? value.map((skill) => skill.value)
+                          : null
+                      );
+                    }}
+                  />
+                )}
               </div>
             </div>
             <div className="myProjectOptionSearch">
@@ -86,10 +124,10 @@ function MyProjectPage({ location, match, history }) {
               </div>
             </div>
             <div className="myProjectOptionSubmit">
-              <button>적용</button>
+              <button onClick={setFilter}>적용</button>
             </div>
           </div>
-          <Link to="/meprojectregist">
+          <Link to="/me/project/regist">
             <button>등록</button>
           </Link>
         </div>

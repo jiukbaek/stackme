@@ -30,7 +30,7 @@ function ProjectRegistPage({ location, match, history }) {
   const [showing, setShowing] = useState("N");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(null);
-  const [useSkill, setUseSkill] = useState([]);
+  const [useSkill, setUseSkill] = useState(null);
 
   const typeSelectOption = [
     { value: 1, label: getProjectType(1) },
@@ -60,7 +60,7 @@ function ProjectRegistPage({ location, match, history }) {
     const url = urlInput.value;
     const giturl = gitInput.value;
 
-    if (!title || !startDate || !content || useSkill.length <= 0) {
+    if (!title || !startDate || !content || useSkill) {
       alert("nono");
       return;
     }
@@ -149,8 +149,9 @@ function ProjectRegistPage({ location, match, history }) {
             isMulti
             className="registSelector"
             onChange={(value) => {
-              console.log(value);
-              setUseSkill(value ? value.map((skill) => skill.value) : []);
+              setUseSkill(
+                value.length > 0 ? value.map((skill) => skill.value) : null
+              );
             }}
           />
         </div>

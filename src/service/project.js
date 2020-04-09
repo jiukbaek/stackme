@@ -7,10 +7,19 @@ export const getProjectRandom = async (count = 10) => {
   return await axios.get(`${API_URL}/project/random?number=${count}`);
 };
 
-export const getMyProject = async (page, perPage) => {
+export const getProject = async (page, perPage, showing = false) => {
   const token = getToken();
+  let filterStr = "";
+
+  const q = localStorage.getItem("q");
+  const filterSkill = localStorage.getItem("filterSkill");
+
+  if (q) filterStr += `&q=${q}`;
+  if (filterSkill) filterStr += `&skills=${filterSkill}`;
+  if (showing) filterStr += `&showing=Y`;
+
   const result = await axios.get(
-    `${API_URL}/project?page=${page}&perPage=${perPage}`,
+    `${API_URL}/project?page=${page}&perPage=${perPage}${filterStr}`,
     {
       headers: { Authorization: `Bearer ${token}` },
     }

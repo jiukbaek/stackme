@@ -79,7 +79,7 @@ function ProjectModifyPage({ history }) {
     const url = urlInput.value;
     const giturl = gitInput.value;
 
-    if (!title || !startDate || !content || useSkill.length <= 0) {
+    if (!title || !startDate || !content || useSkill) {
       alert("nono");
       return;
     }
@@ -181,7 +181,9 @@ function ProjectModifyPage({ history }) {
               isMulti
               className="registSelector"
               onChange={(value) => {
-                setUseSkill(value ? value.map((skill) => skill.value) : []);
+                setUseSkill(
+                  value.length > 0 ? value.map((skill) => skill.value) : null
+                );
               }}
             />
           )}

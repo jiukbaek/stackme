@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Main from "./pages/MainPage";
 import Login from "./pages/LoginPage";
 import Project from "./pages/ProjectPage";
+import ProjectList from "./pages/ProjectListPage";
 import Profile from "./pages/ProfilePage";
 import MyProject from "./pages/MyProjectPage";
 import PrivateRoute from "./components/PrivateRoute";
@@ -32,6 +33,7 @@ const App = () => {
       <Switch>
         <Route path="/" component={Main} exact={true} />
         <Route path="/login" component={Login} />
+        <Route path="/projects" component={ProjectList} />
         <Route path="/project" component={Project} />
         <PrivateRoute
           path="/me"
@@ -40,19 +42,19 @@ const App = () => {
           exact={true}
         />
         <PrivateRoute
-          path="/meproject"
+          path="/me/project"
           redirectTo="/login"
           component={MyProject}
           exact={true}
         />
         <PrivateRoute
-          path="/meprojectregist"
+          path="/me/project/regist"
           redirectTo="/login"
           component={ProjectRegistPage}
           exact={true}
         />
         <PrivateRoute
-          path="/meprojectmodify"
+          path="/me/project/modify"
           redirectTo="/login"
           component={ProjectModifyPage}
           exact={true}

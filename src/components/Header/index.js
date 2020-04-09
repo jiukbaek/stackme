@@ -5,7 +5,7 @@ import { logOut } from "../../modules/auth";
 import { toggleUserContext } from "../../utils";
 
 function Header() {
-  const { isLogined, currentUser } = useSelector(state => state.auth);
+  const { isLogined, currentUser } = useSelector((state) => state.auth);
   const contextMenu = useRef(null);
   const dispatch = useDispatch();
 
@@ -26,7 +26,7 @@ function Header() {
               </div>
               <div className="userContext" ref={contextMenu}>
                 <Link to="/me">내 정보</Link>
-                <Link to="/meproject">프로젝트 관리</Link>
+                <Link to="/me/project">프로젝트 관리</Link>
                 <div className="divider"></div>
                 <a onClick={() => dispatch(logOut())}>로그아웃</a>
               </div>

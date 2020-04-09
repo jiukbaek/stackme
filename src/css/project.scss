@@ -45,7 +45,11 @@
 
   & .projectItemContent {
     margin-top: 10px;
-    padding: 5px 15px;
+    padding: 0px 15px;
+    height: 65px;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 }
 
@@ -116,5 +120,26 @@
 
   & .projectDetailLabel {
     font-size: 13px;
+  }
+}
+
+.publicProjectWrapper {
+  width: 100%;
+  max-width: 1200px;
+  padding: 25px 0px;
+  margin: 0 auto;
+
+  & .publicProjectList {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+
+    & .projectItemWrapper {
+      @include projectItemWidth(25%);
+      margin-bottom: 30px;
+      & .projectItemInner {
+        border: solid 1px #b9b9b9;
+      }
+    }
   }
 }

@@ -4,48 +4,53 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: "./src/index.js",
+  output: {
+    publicPath: "/",
+  },
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
-        }
+          loader: "babel-loader",
+        },
       },
       {
         test: /\.html$/,
         use: [
           {
-            loader: "html-loader"
-          }
-        ]
+            loader: "html-loader",
+          },
+        ],
       },
       {
         test: /\.(sa|sc|c)ss$/,
         exclude: /node_modules/,
-        use: ["style-loader", "css-loader", "sass-loader"]
-      }
-    ]
+        use: ["style-loader", "css-loader", "sass-loader"],
+      },
+    ],
   },
   devServer: {
     proxy: {
       "/uploads/": {
         target: "http://localhost:3000",
-        changeOrigin: true
+        changeOrigin: true,
       },
       "/public/": {
         target: "http://localhost:3000",
-        changeOrigin: true
-      }
+        changeOrigin: true,
+      },
     },
     port: 9000,
-    historyApiFallback: true
+    historyApiFallback: true,
+    contentBase: "./",
+    hot: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html",
-      filename: "./index.html"
-    })
-  ]
+      filename: "./index.html",
+    }),
+  ],
 };
