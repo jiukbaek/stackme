@@ -39,8 +39,6 @@ function MyProjectPage({ location, match, history }) {
     searchInput.setValue(savedQ ? savedQ : "");
     setFilterSkill(savedSkill ? savedSkill.split(",") : null);
 
-    console.log(savedSkill);
-
     dispatch(getAllSkillAsync());
     dispatch(getProjectAsync());
   }, []);
@@ -65,12 +63,8 @@ function MyProjectPage({ location, match, history }) {
   };
 
   const setFilter = () => {
-    console.log("1234", filterSkill);
     if (filterSkill) localStorage.setItem("filterSkill", filterSkill.join(","));
-    else {
-      console.log("1234", filterSkill);
-      localStorage.removeItem("filterSkill");
-    }
+    else localStorage.removeItem("filterSkill");
 
     if (searchInput.value) localStorage.setItem("q", searchInput.value);
     else localStorage.removeItem("q");

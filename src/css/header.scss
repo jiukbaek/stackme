@@ -39,6 +39,10 @@ header {
     cursor: pointer;
     padding: 12px 10px;
   }
+
+  & .authBox {
+    font-size: 13px;
+  }
 }
 
 .headerWrapper .headerRight .headerUserWrapper {

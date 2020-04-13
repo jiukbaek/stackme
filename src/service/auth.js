@@ -2,6 +2,16 @@ import axios from "axios";
 
 const API_URL = "http://localhost:3000/api";
 
+export const createUser = async ({ email, password, name, birth }) => {
+  const result = await axios.post(`${API_URL}/user`, {
+    email,
+    password,
+    name,
+    birth,
+  });
+  return result;
+};
+
 export const login = async (email, password) => {
   const result = await axios.post(`${API_URL}/auth/login`, { email, password });
   if (result) {

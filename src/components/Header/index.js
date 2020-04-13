@@ -33,8 +33,7 @@ function Header() {
             </div>
           ) : (
             <div className="authBox">
-              <Link to="/login">로그인</Link>
-              <a>회원가입</a>
+              <Link to="/login">로그인 / 회원가입</Link>
             </div>
           )}
         </div>

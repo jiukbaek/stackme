@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Main from "./pages/MainPage";
 import Login from "./pages/LoginPage";
+import Signup from "./pages/SignupPage";
 import Project from "./pages/ProjectPage";
 import ProjectList from "./pages/ProjectListPage";
 import Profile from "./pages/ProfilePage";
@@ -33,8 +34,13 @@ const App = () => {
       <Switch>
         <Route path="/" component={Main} exact={true} />
         <Route path="/login" component={Login} />
-        <Route path="/projects" component={ProjectList} />
-        <Route path="/project" component={Project} />
+        <Route path="/signup" component={Signup} />
+        <PrivateRoute
+          path="/projects"
+          redirectTo="/login"
+          component={ProjectList}
+        />
+        <PrivateRoute path="/project" redirectTo="/login" component={Project} />
         <PrivateRoute
           path="/me"
           redirectTo="/login"

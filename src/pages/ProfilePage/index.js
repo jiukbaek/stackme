@@ -46,7 +46,7 @@ function Profile() {
           </>
         )}
       </div>
-
+          
       <CareerBox action={"write"} />
       {careers &&
         careers.map((career) => <CareerBox key={career.id} career={career} />)}

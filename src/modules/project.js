@@ -17,6 +17,11 @@ const PROJECT_FAIL = "project/PROJECT_FAIL";
 const PROJECT_MODIFY = "project/PROJECT_MODIFY";
 const PROJECT_DELETE = "project/PROJECT_DELETE";
 const PROJECTS_MORE_SUCCESS = "project/PROJECTS_MORE_SUCCESS";
+const PROJECTS_INIT = "project/PROJECTS_INIT";
+
+export const projectsInit = () => ({
+  type: PROJECTS_INIT,
+});
 
 export const projectRandom = (count) => async (dispatch, getState) => {
   dispatch({ type: PROJECT_REQUEST });
@@ -115,6 +120,13 @@ const initialState = {
 
 export default function project(state = initialState, action) {
   switch (action.type) {
+    case PROJECTS_INIT:
+      return {
+        ...state,
+        loading: false,
+        projects: [],
+        error: null,
+      };
     case PROJECT_REQUEST:
       return {
         ...state,

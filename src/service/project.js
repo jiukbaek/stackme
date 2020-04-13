@@ -11,8 +11,10 @@ export const getProject = async (page, perPage, showing = false) => {
   const token = getToken();
   let filterStr = "";
 
-  const q = localStorage.getItem("q");
-  const filterSkill = localStorage.getItem("filterSkill");
+  const q = showing ? "" : localStorage.getItem("q");
+  const filterSkill = showing
+    ? localStorage.getItem("publicFilterSkill")
+    : localStorage.getItem("filterSkill");
 
   if (q) filterStr += `&q=${q}`;
   if (filterSkill) filterStr += `&skills=${filterSkill}`;
@@ -25,7 +27,6 @@ export const getProject = async (page, perPage, showing = false) => {
     }
   );
 
-  console.log(result);
   return result;
 };
 

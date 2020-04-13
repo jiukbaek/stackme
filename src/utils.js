@@ -1,4 +1,4 @@
-export const getProjectType = type => {
+export const getProjectType = (type) => {
   const typeNum = parseInt(type);
   switch (typeNum) {
     case 1:
@@ -32,7 +32,7 @@ export const getToken = () => {
   return localStorage.getItem("token");
 };
 
-export const makeDate = date => {
+export const makeDate = (date) => {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();
@@ -42,7 +42,7 @@ export const makeDate = date => {
   }`;
 };
 
-export const removeHtml = content => {
+export const removeHtml = (content) => {
   const removedImg = content.replace(/<IMG(.*?)>/gi, content);
   const removedHtml = removedImg
     .replace(/<br\/>/gi, " ")
