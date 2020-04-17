@@ -1,3 +1,5 @@
+@import "./mixin.scss";
+
 $border-color: #b9b9b9;
 
 .signupWrapper {
@@ -58,6 +60,10 @@ $border-color: #b9b9b9;
       margin-bottom: 5px;
     }
 
+    & .verifyLabel {
+      font-size: 13px;
+    }
+
     & .signupInfoBox {
       font-size: 13px;
       margin: 5px 0px;
@@ -79,6 +85,19 @@ $border-color: #b9b9b9;
       &:active {
         transform: scale(0.995, 0.97);
       }
+    }
+  }
+}
+
+@include mobile {
+  .loginWrapper {
+    & .loginBox {
+      border: none;
+    }
+  }
+  .signupWrapper {
+    & .signupBox {
+      border: none;
     }
   }
 }

@@ -1,3 +1,4 @@
+@import "./mixin.scss";
 $primary-color: #333;
 $second-color: #b9b9b9;
 
@@ -6,6 +7,8 @@ html {
   margin: 0px;
   padding: 0px;
   font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
+  position: relative;
+  overflow-x: hidden;
 }
 
 a {

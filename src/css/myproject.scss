@@ -1,3 +1,5 @@
+@import "./mixin.scss";
+
 .myProjectPageWrapper {
   width: 100%;
   min-height: 100vh;
@@ -7,7 +9,6 @@
   }
 
   & .myProjectWrapper {
-    width: 100%;
     max-width: 1200px;
     padding: 25px 0px;
     margin: 0 auto;
@@ -231,5 +232,38 @@
   }
   & .registSelector {
     margin: 5px 0px;
+  }
+}
+
+@include mobile {
+  .myProjectPageWrapper {
+    & .myProjectRegist {
+      display: none;
+    }
+
+    & .myProjectWrapper {
+      padding: 25px 4vw;
+      & .myProjectListWrapper {
+        & .myProjectItemWrapper {
+          height: auto;
+          & > div {
+            float: none;
+          }
+          & .myProjectItemThumnail {
+            width: 100%;
+            margin-bottom: 4vw;
+          }
+          & .myProjectItemContent {
+            width: 100%;
+            padding-left: 0;
+          }
+          & .myProjectItemManage {
+            & button:first-child {
+              display: none;
+            }
+          }
+        }
+      }
+    }
   }
 }

@@ -51,3 +51,7 @@ export const removeHtml = (content) => {
 
   return removedHtml;
 };
+
+export const KeyPressEnter = (key) => {
+  return key === "Enter";
+};

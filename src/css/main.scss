@@ -1,3 +1,4 @@
+@import "./mixin.scss";
 @import "./project.scss";
 
 $banner_background_color: #9bb7e2;
@@ -141,5 +142,70 @@ $lightgray_background_color: #f6f6f6;
   to {
     opacity: 1;
     transform: translateY(100%);
+  }
+}
+
+@include mobile {
+  .mainPageWrapper {
+    & .mainSectionTitle {
+      display: none;
+    }
+
+    & .mainBannerWrapper {
+      & .mainBannerInner {
+        height: 100vw;
+        background-position: -50px bottom;
+        background-size: auto 80%;
+
+        & .mainBannerBigText {
+          font-size: 9vw;
+          top: 20%;
+          right: 5%;
+        }
+
+        & .mainBannerSmallText {
+          font-size: 4vw;
+          top: 36%;
+          right: 5%;
+        }
+
+        & .mainBannerBlock1,
+        .mainBannerBlock2,
+        .mainBannerBlock3 {
+          display: none;
+        }
+      }
+    }
+
+    & .mainInfoWrapper {
+      & .mainInfoInner {
+        flex-direction: column;
+        height: auto;
+        padding: 13vw 0px;
+        justify-content: flex-start;
+        & .mainInfoItem {
+          width: 90%;
+          margin: 5vw 0px;
+          & img {
+            width: 30%;
+          }
+          & .mainInfoBigText {
+            font-size: 6vw;
+            padding: 3vw 0px;
+          }
+          & .mainInfoSmallText {
+            font-size: 3.5vw;
+            line-height: 8vw;
+          }
+        }
+      }
+    }
+
+    & .mainProjectWrapper {
+      & .mainProjectInner {
+        margin-top: 0px;
+        padding: 13vw 0px;
+      }
+    }
   }
 }

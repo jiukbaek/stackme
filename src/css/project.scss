@@ -1,3 +1,5 @@
+@import "./mixin.scss";
+
 @mixin projectItemWidth($width) {
   width: $width;
 }
@@ -54,9 +56,7 @@
 }
 
 .projectDetailWrapper {
-  width: 100%;
   max-width: 1200px;
-  min-height: 100vh;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -89,6 +89,7 @@
     margin: 8px 0px 4px 0px;
   }
   & .projectDetailContent {
+    min-height: 50vh;
     & img {
       max-width: 100%;
       height: auto;
@@ -124,7 +125,6 @@
 }
 
 .publicProjectWrapper {
-  width: 100%;
   max-width: 1200px;
   padding: 25px 0px;
   margin: 0 auto;
@@ -181,6 +181,94 @@
       & .projectItemInner {
         border: solid 1px #b9b9b9;
       }
+    }
+  }
+}
+
+@include mobile {
+  .publicProjectWrapper {
+    padding: 25px 4vw;
+    & .publicProjectList {
+      & .projectItemWrapper {
+        width: 50%;
+        margin-bottom: 3vw;
+
+        & .projectItemInner {
+          width: 95%;
+          height: 60vw;
+
+          & .projectItemThumnail {
+            height: 60%;
+          }
+          & .projectItemType {
+            padding-left: 3vw;
+            font-size: 2vw;
+          }
+
+          & .projectItemTitle {
+            font-size: 4.5vw;
+            padding-left: 3vw;
+          }
+
+          & .projectItemContent {
+            margin-top: 2vw;
+            padding: 0px 3vw;
+            height: 8vw;
+          }
+        }
+      }
+    }
+  }
+
+  .projectDetailWrapper {
+    padding: 5vw 4vw;
+
+    & > div {
+      width: 100%;
+    }
+
+    & .projectDetailTop {
+      margin-bottom: 3vw;
+      & .projectDetailType {
+        font-size: 3vw;
+      }
+      & .projectDetailTitle {
+        font-size: 7vw;
+      }
+      & .projectDetailInfo {
+        font-size: 3.5vw;
+        & > div {
+          margin-right: 4vw;
+          display: inline-block;
+        }
+      }
+    }
+    & .projectDetailContent {
+      & img {
+        max-width: 100%;
+        height: auto;
+      }
+    }
+    & .projectDetailSkills {
+      margin-top: 2vw;
+      & .projectDetailSkillsContent {
+        margin: 1vw 0px;
+        & > div {
+          padding: 1vw 2.8vw;
+          font-size: 4vw;
+          margin-right: 2vw;
+        }
+      }
+    }
+    & .projectDetailUrl {
+      & .projectDetailUrlContent {
+        margin: 1vw 0px;
+        font-size: 4vw;
+      }
+    }
+
+    & .projectDetailLabel {
+      font-size: 4vw;
     }
   }
 }

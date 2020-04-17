@@ -26,3 +26,16 @@ export const logout = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("email");
 };
+
+export const verifySignup = async (email) => {
+  const result = await axios.post(`${API_URL}/auth/verify`, { email });
+  return result;
+};
+
+export const checkEmailCode = async (email, code) => {
+  const result = await axios.post(`${API_URL}/auth/verify/check`, {
+    email,
+    code,
+  });
+  return result;
+};

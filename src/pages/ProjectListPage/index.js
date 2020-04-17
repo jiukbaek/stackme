@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  moreProjectAsync,
-  getProjectAsync,
-  projectsInit,
-} from "../../modules/project";
+import { moreProjectAsync, getProjectIdAsync } from "../../modules/project";
+import { withRouter } from "react-router-dom";
 import ProjectItem from "../../components/ProjectItem";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import "../../css/project.scss";
 import { getAllSkillAsync } from "../../modules/skill";
 
-function ProjectListPage() {
+function ProjectListPage({ history }) {
   const animatedComponents = makeAnimated();
   const dispatch = useDispatch();
   const { loading, projects } = useSelector((state) => state.project);
@@ -32,6 +29,11 @@ function ProjectListPage() {
     else localStorage.removeItem("publicFilterSkill");
 
     location.reload();
+  };
+
+  const showProject = async (id) => {
+    await dispatch(getProjectIdAsync(id));
+    history.push("/project");
   };
 
   useEffect(() => {
@@ -95,11 +97,14 @@ function ProjectListPage() {
         {projects &&
           projects.map((project) => (
             <ProjectItem
-              key={project.id}
+              key={`project${project.id}`}
               thumnail={project.thumnail}
               type={project.type}
               title={project.title}
               content={project.content}
+              onClick={() => {
+                showProject(project.id);
+              }}
             />
           ))}
       </div>
@@ -107,4 +112,4 @@ function ProjectListPage() {
   );
 }
 
-export default ProjectListPage;
+export default withRouter(ProjectListPage);

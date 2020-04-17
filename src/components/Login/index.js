@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import useInput from "../../Hooks/useInput";
 import { useSelector, useDispatch } from "react-redux";
-import { loginAsync, loginEmptyParam } from "../../modules/auth";
+import { loginAsync, authFail } from "../../modules/auth";
+import { KeyPressEnter } from "../../utils";
 
 function Login() {
   const emailInput = useInput();
@@ -15,7 +16,7 @@ function Login() {
     const password = passwordInput.value;
 
     if (!email || !password) {
-      dispatch(loginEmptyParam());
+      dispatch(authFail("이메일, 패스워드를 입력해주세요."));
       return;
     }
 
@@ -33,12 +34,18 @@ function Login() {
         type="text"
         value={emailInput.value}
         onChange={emailInput.onChange}
+        onKeyPress={(e) => {
+          if (KeyPressEnter(e.key)) loginOnClick();
+        }}
       />
       <div className="loginLabel">Password</div>
       <input
         type="password"
         value={passwordInput.value}
         onChange={passwordInput.onChange}
+        onKeyPress={(e) => {
+          if (KeyPressEnter(e.key)) loginOnClick();
+        }}
       />
       <div className="loginInfoBox">{error}</div>
       <button className="loginBtn" onClick={loginOnClick}>

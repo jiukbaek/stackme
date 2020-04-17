@@ -13,6 +13,8 @@ import Pagination from "../../components/Pagination";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import useInput from "../../Hooks/useInput";
+import ModalBox from "../../components/ModalBox";
+import DeleteProject from "../../components/DeleteProject";
 
 function MyProjectPage({ location, match, history }) {
   const animatedComponents = makeAnimated();
@@ -24,6 +26,7 @@ function MyProjectPage({ location, match, history }) {
   const searchInput = useInput("");
   const [filterSkill, setFilterSkill] = useState(null);
   const skillSelector = useRef();
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
   const skillSelectOption =
     skills &&
@@ -53,8 +56,17 @@ function MyProjectPage({ location, match, history }) {
     history.push("/me/project/modify");
   };
 
-  const deleteProject = async (id) => {
-    await dispatch(deleteProjectAsync(id));
+  const deleteInitProject = () => {
+    setDeleteTarget(null);
+  };
+
+  const deleteProject = async () => {
+    await dispatch(deleteProjectAsync(deleteTarget));
+    deleteInitProject();
+  };
+
+  const deleteProjectConfirm = (id) => {
+    setDeleteTarget(id);
   };
 
   const changePage = async (page) => {
@@ -121,7 +133,7 @@ function MyProjectPage({ location, match, history }) {
               <button onClick={setFilter}>적용</button>
             </div>
           </div>
-          <Link to="/me/project/regist">
+          <Link to="/me/project/regist" className="myProjectRegist">
             <button>등록</button>
           </Link>
         </div>
@@ -130,7 +142,7 @@ function MyProjectPage({ location, match, history }) {
             projects.map((project) => (
               <div
                 className="myProjectItemWrapper"
-                key={project.id}
+                key={`myProject${project.id}`}
                 onClick={() => {
                   showProject(project.id);
                 }}
@@ -179,7 +191,7 @@ function MyProjectPage({ location, match, history }) {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      deleteProject(project.id);
+                      deleteProjectConfirm(project.id);
                     }}
                   >
                     <i className="icon icon-trash"></i>
@@ -192,6 +204,14 @@ function MyProjectPage({ location, match, history }) {
           <Pagination pagination={pagination} onChange={changePage} />
         )}
       </div>
+      {deleteTarget && (
+        <ModalBox>
+          <DeleteProject
+            deleteProject={deleteProject}
+            deleteInitProject={deleteInitProject}
+          />
+        </ModalBox>
+      )}
     </section>
   );
 }
