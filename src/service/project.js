@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getToken } from "../utils";
 
-const API_URL = "http://localhost:3000/api";
+const API_URL = "/api";
 
 export const getProjectRandom = async (count = 10) => {
   return await axios.get(`${API_URL}/project/random?number=${count}`);

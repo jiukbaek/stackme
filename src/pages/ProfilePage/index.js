@@ -37,16 +37,25 @@ function Profile() {
               content={user.birth}
               type={"birth"}
             />
-            <ProfileItem title={"이메일"} content={user.email} type={"email"} />
+            <ProfileItem
+              title={"이메일"}
+              content={user.email}
+              readOnly={true}
+            />
             <ProfileItem
               title={"깃허브"}
               content={user.git_url}
               type={"git_url"}
             />
+            <ProfileItem
+              title={"API_KEY"}
+              content={user.api_key}
+              readOnly={true}
+            />
           </>
         )}
       </div>
-          
+
       <CareerBox action={"write"} />
       {careers &&
         careers.map((career) => <CareerBox key={career.id} career={career} />)}

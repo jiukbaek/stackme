@@ -52,6 +52,33 @@ export const removeHtml = (content) => {
   return removedHtml;
 };
 
-export const KeyPressEnter = (key) => {
+export const keyPressEnter = (key) => {
   return key === "Enter";
+};
+
+export const regexData = (type = "", str = "") => {
+  let reg = "";
+
+  if (!type || !str) return false;
+
+  switch (type) {
+    case "email":
+      reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      break;
+    case "date":
+      reg = /^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/;
+      break;
+    case "space":
+      reg = /\s/g;
+      break;
+    default:
+      return false;
+  }
+  return reg.test(str);
+};
+
+export const checkDateRange = (start, end) => {
+  const startDate = new Date(makeDate(start));
+  const endDate = new Date(makeDate(end));
+  return endDate.getTime() >= startDate.getTime();
 };

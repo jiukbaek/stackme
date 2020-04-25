@@ -3,7 +3,7 @@ import "../../css/myproject.scss";
 import CKEditor from "ckeditor4-react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { getProjectType, makeDate } from "../../utils";
+import { getProjectType, makeDate, checkDateRange } from "../../utils";
 import useInput from "../../Hooks/useInput";
 import DatePicker from "react-datepicker";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +12,7 @@ import { projectRegistAsync } from "../../modules/project";
 import { getAllSkillAsync } from "../../modules/skill";
 import { withRouter } from "react-router-dom";
 
-CKEditor.editorUrl = "/config/ckeditor/ckeditor.js";
+CKEditor.editorUrl = "/static/config/ckeditor/ckeditor.js";
 
 function ProjectRegistPage({ location, match, history }) {
   const animatedComponents = makeAnimated();
@@ -31,6 +31,7 @@ function ProjectRegistPage({ location, match, history }) {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(null);
   const [useSkill, setUseSkill] = useState(null);
+  const [error, setError] = useState("");
 
   const typeSelectOption = [
     { value: 1, label: getProjectType(1) },
@@ -50,6 +51,15 @@ function ProjectRegistPage({ location, match, history }) {
       label: obj.skill,
     }));
 
+  const alertError = (error) => {
+    setError(error);
+    const errorBox = document.querySelector(".editErrorBox");
+    errorBox.style.opacity = "1";
+    setTimeout(() => {
+      errorBox.style.opacity = "0";
+    }, 2000);
+  };
+
   useEffect(() => {
     dispatch(getAllSkillAsync());
   }, []);
@@ -60,9 +70,24 @@ function ProjectRegistPage({ location, match, history }) {
     const url = urlInput.value;
     const giturl = gitInput.value;
 
-    if (!title || !startDate || !content || useSkill) {
-      alert("nono");
-      return;
+    if (!title || !content) {
+      alertError("제목, 본문을 작성해주세요.");
+      return false;
+    }
+
+    if (!startDate) {
+      alertError("시작날짜는 필수항목입니다.");
+      return false;
+    }
+
+    if (!useSkill) {
+      alertError("사용기술은 필수항목입니다.");
+      return false;
+    }
+
+    if (endDate && !checkDateRange(startDate, endDate)) {
+      alertError("날짜범위가 올바르지 않습니다.");
+      return false;
     }
 
     dispatch(
@@ -111,7 +136,6 @@ function ProjectRegistPage({ location, match, history }) {
             <DatePicker
               selected={startDate}
               onChange={(val) => {
-                console.log(val);
                 setStartDate(val);
               }}
               dateFormat={"y-MM-dd"}
@@ -135,11 +159,8 @@ function ProjectRegistPage({ location, match, history }) {
           />
         </div>
         <CKEditor
-          config={{ customConfig: "/config/ckeditConfig.js" }}
+          config={{ customConfig: "/static/config/ckeditConfig.js" }}
           ref={editor}
-          onChange={(e) => {
-            console.log(e.editor.getData());
-          }}
         />
         <div className="skillWrapper">
           <div className="registLabel">사용 기술</div>
@@ -149,9 +170,11 @@ function ProjectRegistPage({ location, match, history }) {
             isMulti
             className="registSelector"
             onChange={(value) => {
-              setUseSkill(
-                value.length > 0 ? value.map((skill) => skill.value) : null
-              );
+              if (value)
+                setUseSkill(
+                  value.length > 0 ? value.map((skill) => skill.value) : null
+                );
+              else setUseSkill(null);
             }}
           />
         </div>
@@ -175,6 +198,11 @@ function ProjectRegistPage({ location, match, history }) {
           <button onClick={submitProject}>등록</button>
           <button onClick={() => history.goBack()}>취소</button>
         </div>
+      </div>
+      <div className="editErrorBox">
+        <span>
+          <i className="fa fa-exclamation"></i> {error}
+        </span>
       </div>
     </section>
   );

@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { moreProjectAsync, getProjectIdAsync } from "../../modules/project";
+import {
+  moreProjectAsync,
+  getProjectIdAsync,
+  projectsInit,
+} from "../../modules/project";
 import { withRouter } from "react-router-dom";
 import ProjectItem from "../../components/ProjectItem";
 import Select from "react-select";
@@ -11,7 +15,9 @@ import { getAllSkillAsync } from "../../modules/skill";
 function ProjectListPage({ history }) {
   const animatedComponents = makeAnimated();
   const dispatch = useDispatch();
-  const { loading, projects } = useSelector((state) => state.project);
+  const { loading, projects, pagination } = useSelector(
+    (state) => state.project
+  );
   const { skills } = useSelector((state) => state.skill);
   const [page, setPage] = useState(1);
   const [filterSkill, setFilterSkill] = useState(null);
@@ -38,11 +44,11 @@ function ProjectListPage({ history }) {
 
   useEffect(() => {
     const savedSkill = localStorage.getItem("publicFilterSkill");
+    setFilterSkill(savedSkill ? savedSkill.split(",") : null);
 
     window.addEventListener("scroll", handleScroll);
 
-    setFilterSkill(savedSkill ? savedSkill.split(",") : null);
-
+    dispatch(projectsInit());
     dispatch(getAllSkillAsync());
   }, []);
 
@@ -59,7 +65,9 @@ function ProjectListPage({ history }) {
 
     //스크롤 이벤트 발생 시 한번 만 발생 하게 끔
     if (!loading && scrollHeight - innerHeight - scrollTop < 100) {
-      setPage((state) => state + 1);
+      if (pagination && pagination.totalPage > page) {
+        setPage((state) => state + 1);
+      }
     }
   };
 
@@ -82,9 +90,11 @@ function ProjectListPage({ history }) {
                   filterSkill.map((value) => skillSelectOption[value - 1]))()
               }
               onChange={(value) => {
-                setFilterSkill(
-                  value.length > 0 ? value.map((skill) => skill.value) : null
-                );
+                if (value)
+                  setFilterSkill(
+                    value.length > 0 ? value.map((skill) => skill.value) : null
+                  );
+                else setFilterSkill(null);
               }}
             />
           )}
@@ -94,7 +104,7 @@ function ProjectListPage({ history }) {
         </div>
       </div>
       <div className="publicProjectList">
-        {projects &&
+        {projects && projects.length > 0 ? (
           projects.map((project) => (
             <ProjectItem
               key={`project${project.id}`}
@@ -106,7 +116,10 @@ function ProjectListPage({ history }) {
                 showProject(project.id);
               }}
             />
-          ))}
+          ))
+        ) : (
+          <div className="projectListEmpty">게시된 프로젝트가 없습니다.</div>
+        )}
       </div>
     </div>
   );

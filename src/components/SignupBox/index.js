@@ -7,7 +7,7 @@ import {
   checkEmailCodeAsync,
   createUserAsync,
 } from "../../modules/auth";
-import { KeyPressEnter } from "../../utils";
+import { keyPressEnter, regexData } from "../../utils";
 
 function SignupBox() {
   const dispatch = useDispatch();
@@ -16,7 +16,11 @@ function SignupBox() {
   const nameInput = useInput("");
   const birthInput = useInput("");
   const codeInput = useInput("");
-  const { error, currentUser, verify } = useSelector((state) => state.auth);
+  const { error, verify } = useSelector((state) => state.auth);
+
+  const dispatchError = (str) => {
+    dispatch(authFail(str));
+  };
 
   const signupSubmit = () => {
     const email = emailInput.value;
@@ -25,7 +29,17 @@ function SignupBox() {
     const birth = birthInput.value;
 
     if (!email || !password || !name || !birth) {
-      dispatch(authFail("입력하지 않은 정보가 있습니다."));
+      dispatchError("입력하지 않은 정보가 있습니다.");
+      return false;
+    }
+
+    if (!regexData("email", email)) {
+      dispatchError("이메일 형식이 올바르지 않습니다.");
+      return false;
+    }
+
+    if (!regexData("date", birth)) {
+      dispatchError("생년월일 형식이 올바르지 않습니다.");
       return false;
     }
 
@@ -36,6 +50,12 @@ function SignupBox() {
     const email = emailInput.value;
 
     if (!email) {
+      dispatchError("이메일을 입력해주세요.");
+      return false;
+    }
+
+    if (!regexData("email", email)) {
+      dispatchError("이메일 형식이 올바르지 않습니다.");
       return false;
     }
 
@@ -47,6 +67,7 @@ function SignupBox() {
     const code = codeInput.value;
 
     if (!email || !code) {
+      dispatchError("인증 코드를 입력해주세요.");
       return false;
     }
 
@@ -59,11 +80,11 @@ function SignupBox() {
         <>
           <div className="signupLabel">이메일</div>
           <input
-            type="text"
+            type="email"
             value={emailInput.value}
             onChange={emailInput.onChange}
             onKeyPress={(e) => {
-              if (KeyPressEnter(e.key)) signupSubmit();
+              if (keyPressEnter(e.key)) signupSubmit();
             }}
           />
           <div className="signupLabel">비밀번호</div>
@@ -72,7 +93,8 @@ function SignupBox() {
             value={passwordInput.value}
             onChange={passwordInput.onChange}
             onKeyPress={(e) => {
-              if (KeyPressEnter(e.key)) signupSubmit();
+              if (keyPressEnter(e.key)) signupSubmit();
+              if (regexData("space", e.key)) e.preventDefault();
             }}
           />
           <div className="signupLabel">이름</div>
@@ -81,17 +103,23 @@ function SignupBox() {
             value={nameInput.value}
             onChange={nameInput.onChange}
             onKeyPress={(e) => {
-              if (KeyPressEnter(e.key)) signupSubmit();
+              if (keyPressEnter(e.key)) signupSubmit();
             }}
           />
           <div className="signupLabel">생년월일</div>
           <input
             type="text"
             value={birthInput.value}
-            onChange={birthInput.onChange}
+            onChange={(e) => {
+              birthInput.setValue(e.target.value);
+            }}
             placeholder={"ex)1994-02-05"}
             onKeyPress={(e) => {
-              if (KeyPressEnter(e.key)) signupSubmit();
+              const target = e.target.value;
+              if (keyPressEnter(e.key)) signupSubmit();
+              if (!/\d/.test(e.key) || target.length >= 10) e.preventDefault();
+              if (target.length === 4 || target.length === 7)
+                birthInput.setValue(e.target.value + "-");
             }}
           />
           <div className="signupInfoBox">{error}</div>
@@ -103,13 +131,14 @@ function SignupBox() {
         <>
           <div className="signupLabel">이메일</div>
           <input
-            type="text"
+            type="email"
             value={emailInput.value}
             onChange={emailInput.onChange}
             onKeyPress={(e) => {
-              if (KeyPressEnter(e.key))
+              if (keyPressEnter(e.key))
                 verify === 1 ? verifySignup() : checkEmailCode();
             }}
+            readOnly={verify === 2 ? true : false}
           />
           {verify === 2 && (
             <>
@@ -119,7 +148,7 @@ function SignupBox() {
                 value={codeInput.value}
                 onChange={codeInput.onChange}
                 onKeyPress={(e) => {
-                  if (KeyPressEnter(e.key)) checkEmailCode();
+                  if (keyPressEnter(e.key)) checkEmailCode();
                 }}
               />
               {!error && (

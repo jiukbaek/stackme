@@ -3,7 +3,7 @@ import useInput from "../../Hooks/useInput";
 import { useDispatch } from "react-redux";
 import { modifyUserAsync } from "../../modules/user";
 
-function ProfileItem({ title, content = "", type }) {
+function ProfileItem({ title, content = "", type, readOnly = false }) {
   const [edit, setEdit] = useState(false);
   const { value, setValue, onChange } = useInput(content ? content : "");
 
@@ -23,27 +23,29 @@ function ProfileItem({ title, content = "", type }) {
           {edit && <input type="text" value={value} onChange={onChange} />}
         </div>
       </div>
-      <div className="profileItemEdit">
-        {!edit && (
-          <button
-            className="icon icon-pencil"
-            onClick={() => setEdit(true)}
-          ></button>
-        )}
-        {edit && (
-          <>
-            <button onClick={onSave}>저장</button>
+      {!readOnly && (
+        <div className="profileItemEdit">
+          {!edit && (
             <button
-              onClick={() => {
-                setValue(content);
-                setEdit(false);
-              }}
-            >
-              취소
-            </button>
-          </>
-        )}
-      </div>
+              className="icon icon-pencil"
+              onClick={() => setEdit(true)}
+            ></button>
+          )}
+          {edit && (
+            <>
+              <button onClick={onSave}>저장</button>
+              <button
+                onClick={() => {
+                  setValue(content);
+                  setEdit(false);
+                }}
+              >
+                취소
+              </button>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 }

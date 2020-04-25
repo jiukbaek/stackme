@@ -8,7 +8,6 @@ html {
   padding: 0px;
   font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
   position: relative;
-  overflow-x: hidden;
 }
 
 a {
@@ -22,4 +21,11 @@ a {
 
 body {
   margin-top: 50px;
+}
+
+@include mobile {
+  body,
+  html {
+    overflow-x: hidden;
+  }
 }

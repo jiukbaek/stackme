@@ -132,6 +132,28 @@ $lightgray_background_color: #f6f6f6;
   & .projectItemWrapper {
     @include projectItemWidth(100%);
   }
+
+  & .mainProjectEmpty {
+    width: 300px;
+    background: $white_background_color;
+    border: solid 1px #eaeaef;
+    padding: 30px 0px;
+    margin: 0 auto;
+
+    & .projectEmptyImg {
+      & img {
+        display: block;
+        width: 90%;
+        margin: 0 auto;
+      }
+    }
+    & .projectEmptyText {
+      font-size: 17px;
+      font-weight: 700;
+      text-align: center;
+      padding: 20px 0px;
+    }
+  }
 }
 
 @keyframes slideDown {

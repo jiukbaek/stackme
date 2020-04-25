@@ -57,7 +57,7 @@ export const getProjectAsync = (
   dispatch({ type: PROJECT_REQUEST });
   try {
     const result = await getProject(page, perPage, showing);
-    console.log(result);
+
     dispatch({
       type: PROJECTS_SUCCESS,
       projects: result.data.data,
@@ -104,9 +104,13 @@ export const moreProjectAsync = (page) => async (dispatch, getState) => {
   dispatch({ type: PROJECT_REQUEST });
   try {
     const result = await getProject(page, 10, true);
-    dispatch({ type: PROJECTS_MORE_SUCCESS, projects: result.data.data });
+    dispatch({
+      type: PROJECTS_MORE_SUCCESS,
+      projects: result.data.data,
+      pagination: result.data.pagenation,
+    });
   } catch (e) {
-    dispatch({ type: PROJECTS_FAIL, error: e });
+    if (e.response.status === 404) dispatch({ type: PROJECTS_FAIL, error: e });
   }
 };
 
@@ -199,6 +203,7 @@ export default function project(state = initialState, action) {
         ...state,
         loading: false,
         projects: [...state.projects, ...action.projects],
+        pagination: action.pagination,
         error: null,
       };
     default:

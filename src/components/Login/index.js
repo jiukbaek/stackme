@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import useInput from "../../Hooks/useInput";
 import { useSelector, useDispatch } from "react-redux";
 import { loginAsync, authFail } from "../../modules/auth";
-import { KeyPressEnter } from "../../utils";
+import { keyPressEnter } from "../../utils";
 
 function Login() {
   const emailInput = useInput();
@@ -35,7 +35,7 @@ function Login() {
         value={emailInput.value}
         onChange={emailInput.onChange}
         onKeyPress={(e) => {
-          if (KeyPressEnter(e.key)) loginOnClick();
+          if (keyPressEnter(e.key)) loginOnClick();
         }}
       />
       <div className="loginLabel">Password</div>
@@ -44,7 +44,7 @@ function Login() {
         value={passwordInput.value}
         onChange={passwordInput.onChange}
         onKeyPress={(e) => {
-          if (KeyPressEnter(e.key)) loginOnClick();
+          if (keyPressEnter(e.key)) loginOnClick();
         }}
       />
       <div className="loginInfoBox">{error}</div>

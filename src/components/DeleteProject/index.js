@@ -1,20 +1,20 @@
 import React from "react";
 
-function DeleteProject({ deleteProject, deleteInitProject }) {
+function DeleteItem({ onSubmit, onCancle, type }) {
   return (
-    <div className="deleteProjectWrapper">
-      <div className="deleteProjectLabel">프로젝트 삭제</div>
-      <div className="deleteProjectContent">
-        삭제된 프로젝트는 복구 할 수 없습니다.
+    <div className="deleteItemWrapper">
+      <div className="deleteItemLabel">{type} 삭제</div>
+      <div className="deleteItemContent">
+        삭제된 {type}(은)는 복구 할 수 없습니다.
         <br />
-        해당 프로젝트를 삭제하시겠습니까?
+        해당 {type}(을)를 삭제하시겠습니까?
       </div>
-      <div className="deleteProjectButtons">
-        <button onClick={deleteProject}>확인</button>
-        <button onClick={deleteInitProject}>취소</button>
+      <div className="deleteItemButtons">
+        <button onClick={onSubmit}>확인</button>
+        <button onClick={onCancle}>취소</button>
       </div>
     </div>
   );
 }
 
-export default DeleteProject;
+export default DeleteItem;

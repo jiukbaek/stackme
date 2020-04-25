@@ -1,0 +1,94 @@
+@import "./mixin.scss";
+
+.apiWrapper {
+  padding: 50px 0px;
+  & .apiBox {
+    max-width: 1200px;
+    border: solid 1px #eaeaef;
+    padding: 10px 0px;
+    margin: 0 auto;
+
+    & .apiBoxContent {
+      & > div {
+        padding: 10px 20px;
+      }
+
+      & .apiBoxInfo {
+        font-size: 16px;
+      }
+
+      & .apiBoxLabel {
+        font-size: 19px;
+      }
+
+      & .apiBoxList {
+        & ul {
+          font-size: 15px;
+          margin-top: 10px;
+          padding-left: 30px;
+
+          & li {
+            margin: 2px 0px;
+          }
+        }
+      }
+
+      & .apiBoxCategoryContent {
+        margin-top: 10px;
+        font-size: 15px;
+      }
+    }
+
+    & .apiBoxTitle {
+      padding: 10px 20px;
+      font-size: 30px;
+      font-weight: 700;
+    }
+
+    table {
+      width: 100%;
+      table-layout: fixed;
+      border: 0;
+      border-spacing: 0;
+      border-collapse: collapse;
+      margin: 20px 0px;
+
+      & th,
+      td {
+        border: solid 1px #e8e8ea;
+        &:first-child {
+          border-left: none;
+        }
+        &:last-child {
+          border-right: none;
+        }
+      }
+
+      & th {
+        font-size: 15px;
+        background: #f5f5f6;
+        line-height: 2;
+      }
+      & td {
+        line-height: 1.6;
+        padding: 18px 18px;
+        word-break: break-all;
+        & code {
+          font-size: inherit;
+          background-color: #fcfcfc;
+          border: 1px solid #e7e8ea;
+          border-radius: 3px;
+          padding: 0px 2px;
+        }
+      }
+    }
+  }
+}
+
+@include mobile {
+  .apiWrapper {
+    & .apiBox {
+      border: none;
+    }
+  }
+}

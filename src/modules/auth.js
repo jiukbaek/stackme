@@ -87,7 +87,6 @@ export const verifySignupAsync = (email) => async (dispatch, getState) => {
     const result = await verifySignup(email);
     dispatch({ type: USER_VERIFY, verify: 2 });
   } catch (e) {
-    console.log(e);
     if (e.response.status === 409)
       dispatch({ type: AUTH_FAIL, error: "이미 가입 된 메일입니다." });
   }

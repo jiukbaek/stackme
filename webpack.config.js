@@ -3,9 +3,10 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: ["@babel/polyfill", "./src/index.js"],
   output: {
     publicPath: "/",
+    filename: "bundle.js",
   },
   module: {
     rules: [
@@ -27,7 +28,8 @@ module.exports = {
       {
         test: /\.(sa|sc|c)ss$/,
         exclude: /node_modules/,
-        use: ["style-loader", "css-loader", "sass-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+        //use: ["style-loader", "css-loader", "sass-loader"],
       },
     ],
   },
@@ -37,7 +39,11 @@ module.exports = {
         target: "http://localhost:3000",
         changeOrigin: true,
       },
-      "/public/": {
+      "/static/": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+      },
+      "/api/": {
         target: "http://localhost:3000",
         changeOrigin: true,
       },
@@ -52,5 +58,6 @@ module.exports = {
       template: "./src/index.html",
       filename: "./index.html",
     }),
+    new MiniCssExtractPlugin({ filename: "app.css" }),
   ],
 };

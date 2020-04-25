@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getToken } from "../utils";
 
-const API_URL = "http://localhost:3000/api";
+const API_URL = "/api";
 
 export const getCareer = async () => {
   const token = getToken();
@@ -14,7 +14,6 @@ export const getCareer = async () => {
 
 export const createCareer = async (company, duty, join_date, end_date) => {
   const token = getToken();
-  console.log(end_date, "end_date");
   const result = await axios.post(
     `${API_URL}/career`,
     {

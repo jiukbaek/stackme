@@ -39,6 +39,7 @@ function Header() {
                 <Link to="/projects">모든 프로젝트</Link>
                 <Link to="/me">내 정보</Link>
                 <Link to="/me/project">내 프로젝트</Link>
+                <Link to="/me/api">API</Link>
                 <div className="divider"></div>
                 <a onClick={() => dispatch(logOut())}>로그아웃</a>
               </div>
@@ -80,6 +81,9 @@ function Header() {
                     </Link>
                     <Link to="/me/project" className="mobileMenuItem">
                       내 프로젝트
+                    </Link>
+                    <Link to="/me/api" className="mobileMenuItem">
+                      API
                     </Link>
                     <div
                       className="mobileMenuItem"

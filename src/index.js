@@ -13,10 +13,7 @@ const customHistory = createBrowserHistory();
 
 const store = createStore(
   rootReducer,
-  applyMiddleware(
-    ReduxThunk.withExtraArgument({ history: customHistory }),
-    logger
-  )
+  applyMiddleware(ReduxThunk.withExtraArgument({ history: customHistory }))
 );
 
 ReactDOM.render(
@@ -25,5 +22,5 @@ ReactDOM.render(
       <App />
     </Provider>
   </Router>,
-  document.getElementById("app")
+  document.getElementById("root")
 );

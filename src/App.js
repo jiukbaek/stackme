@@ -7,6 +7,7 @@ import Project from "./pages/ProjectPage";
 import ProjectList from "./pages/ProjectListPage";
 import Profile from "./pages/ProfilePage";
 import MyProject from "./pages/MyProjectPage";
+import Api from "./pages/ApiPage";
 import PrivateRoute from "./components/PrivateRoute";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -47,6 +48,7 @@ const App = () => {
           component={Profile}
           exact={true}
         />
+        <PrivateRoute path="/me/api" redirectTo="/login" component={Api} />
         <PrivateRoute
           path="/me/project"
           redirectTo="/login"

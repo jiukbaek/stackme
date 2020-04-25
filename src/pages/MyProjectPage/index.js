@@ -14,7 +14,7 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import useInput from "../../Hooks/useInput";
 import ModalBox from "../../components/ModalBox";
-import DeleteProject from "../../components/DeleteProject";
+import DeleteItem from "../../components/DeleteProject";
 
 function MyProjectPage({ location, match, history }) {
   const animatedComponents = makeAnimated();
@@ -109,11 +109,13 @@ function MyProjectPage({ location, match, history }) {
                     isMulti
                     ref={skillSelector}
                     onChange={(value) => {
-                      setFilterSkill(
-                        value.length > 0
-                          ? value.map((skill) => skill.value)
-                          : null
-                      );
+                      if (value)
+                        setFilterSkill(
+                          value.length > 0
+                            ? value.map((skill) => skill.value)
+                            : null
+                        );
+                      else setFilterSkill(null);
                     }}
                   />
                 )}
@@ -138,7 +140,7 @@ function MyProjectPage({ location, match, history }) {
           </Link>
         </div>
         <div className="myProjectListWrapper">
-          {projects &&
+          {projects && projects.length > 0 ? (
             projects.map((project) => (
               <div
                 className="myProjectItemWrapper"
@@ -148,7 +150,7 @@ function MyProjectPage({ location, match, history }) {
                 }}
               >
                 <div className="myProjectItemThumnail">
-                  <img src={`/public/thumnail/${project.thumnail}`} />
+                  <img src={`/static/public/thumnail/${project.thumnail}`} />
                 </div>
                 <div className="myProjectItemContent">
                   <div className="myProjectItemColumn">
@@ -198,7 +200,10 @@ function MyProjectPage({ location, match, history }) {
                   </button>
                 </div>
               </div>
-            ))}
+            ))
+          ) : (
+            <div className="myProjectEmpty">등록된 프로젝트가 없습니다.</div>
+          )}
         </div>
         {pagination && (
           <Pagination pagination={pagination} onChange={changePage} />
@@ -206,9 +211,10 @@ function MyProjectPage({ location, match, history }) {
       </div>
       {deleteTarget && (
         <ModalBox>
-          <DeleteProject
-            deleteProject={deleteProject}
-            deleteInitProject={deleteInitProject}
+          <DeleteItem
+            type="프로젝트"
+            onSubmit={deleteProject}
+            onCancle={deleteInitProject}
           />
         </ModalBox>
       )}
