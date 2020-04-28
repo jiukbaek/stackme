@@ -58,19 +58,11 @@ function ApiPage() {
                 <tbody>
                   <tr>
                     <td>
-                      <code>http://domain/api/me/career</code>
+                      <code>https://stackme.co.kr/api/me/career</code>
                     </td>
                     <td>GET</td>
                     <td>JSON</td>
                     <td>사용자의 모든 경력 정보를 조회합니다.</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <code>http://domain/api/me/career/id</code>
-                    </td>
-                    <td>GET</td>
-                    <td>JSON</td>
-                    <td>사용자의 특정 경력 정보를 조회합니다.</td>
                   </tr>
                 </tbody>
               </table>
@@ -125,7 +117,7 @@ function ApiPage() {
                 <tbody>
                   <tr>
                     <td>
-                      <code>http://domain/api/me/project</code>
+                      <code>https://stackme.co.kr/api/me/project</code>
                     </td>
                     <td>GET</td>
                     <td>JSON</td>
@@ -133,7 +125,7 @@ function ApiPage() {
                   </tr>
                   <tr>
                     <td>
-                      <code>http://domain/api/me/project/id</code>
+                      <code>https://stackme.co.kr/api/me/project/id</code>
                     </td>
                     <td>GET</td>
                     <td>JSON</td>

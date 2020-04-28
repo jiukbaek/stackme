@@ -21,7 +21,6 @@ https://stackme.co.kr<br/>
 * AWS EC2
 * Docker
 
-
 ## 특징
  * bcrypt를 이용한 유저 패스워드 해쉬 처리
  * jwt, passport.js를 이용한 로그인 처리

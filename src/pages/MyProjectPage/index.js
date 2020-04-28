@@ -40,7 +40,7 @@ function MyProjectPage({ location, match, history }) {
     const savedSkill = localStorage.getItem("filterSkill");
 
     searchInput.setValue(savedQ ? savedQ : "");
-    setFilterSkill(savedSkill ? savedSkill.split(",") : null);
+    setFilterSkill(savedSkill ? savedSkill.split(",") : []);
 
     dispatch(getAllSkillAsync());
     dispatch(getProjectAsync());
@@ -95,7 +95,7 @@ function MyProjectPage({ location, match, history }) {
             <div className="myProjectOptionSkill">
               <div className="myProjectOptionLabel">사용 기술</div>
               <div className="myProjectOptionSkillSelect">
-                {skills && (
+                {skills && filterSkill && (
                   <Select
                     options={skillSelectOption}
                     components={animatedComponents}
@@ -113,9 +113,9 @@ function MyProjectPage({ location, match, history }) {
                         setFilterSkill(
                           value.length > 0
                             ? value.map((skill) => skill.value)
-                            : null
+                            : []
                         );
-                      else setFilterSkill(null);
+                      else setFilterSkill([]);
                     }}
                   />
                 )}

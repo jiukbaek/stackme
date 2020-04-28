@@ -44,7 +44,7 @@ function ProjectListPage({ history }) {
 
   useEffect(() => {
     const savedSkill = localStorage.getItem("publicFilterSkill");
-    setFilterSkill(savedSkill ? savedSkill.split(",") : null);
+    setFilterSkill(savedSkill ? savedSkill.split(",") : []);
 
     window.addEventListener("scroll", handleScroll);
 
@@ -79,7 +79,7 @@ function ProjectListPage({ history }) {
         </div>
         <div className="publicProjectFilterSkill">
           <div className="publicProjectFilterOptionLabel">사용기술</div>
-          {skills && (
+          {skills && filterSkill && (
             <Select
               options={skillSelectOption}
               components={animatedComponents}
@@ -92,9 +92,9 @@ function ProjectListPage({ history }) {
               onChange={(value) => {
                 if (value)
                   setFilterSkill(
-                    value.length > 0 ? value.map((skill) => skill.value) : null
+                    value.length > 0 ? value.map((skill) => skill.value) : []
                   );
-                else setFilterSkill(null);
+                else setFilterSkill([]);
               }}
             />
           )}
