@@ -1,6 +1,6 @@
 # Stack Me
 <img src="./static/image/logo.png" width="80"/><br/>
-https://stackme.co.kr<br/>
+
 **스택 미**는 자신의 경력, 프로젝트를 관리하는 웹 서비스입니다.
 
 ## 사용기술
